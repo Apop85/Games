@@ -1,0 +1,6 @@
+This game is based on the tutorial of LetsGameDev. 
+
+All assets where made by LetsGameDev and copyright belongs to him
+
+Youtube tutorial: 
+https://www.youtube.com/watch?v=WRDl2gQObg8&list=PL1td_Fr5vMGOW0hasVEYlvfdm_oYh0xi9
