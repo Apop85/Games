@@ -1,0 +1,166 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/Player.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody2D
+
+const GRAVITY = 400
+const SPEED = 60 
+const JUMP_POWER = 150
+const UP_VECTOR = Vector2(0,-1)
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+var freeze = false
+var move_speed_player = Vector2()
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	if freeze:
+		return
+	move_speed_player.x = 0
+
+	# Gravity calculation
+	move_speed_player.y += GRAVITY * delta
+	
+	check_key_input()
+	check_4_stomp()
+	
+	# Check collisions
+	move_speed_player = move_and_slide(move_speed_player, UP_VECTOR)
+	
+	set_animation()
+
+
+func check_key_input():
+	if Input.is_action_pressed(\"left\"):
+		move_speed_player.x = -1 * SPEED
+
+	if Input.is_action_pressed(\"right\"):
+		move_speed_player.x = 1 * SPEED
+
+	if Input.is_action_just_pressed(\"jump\") and GlobalVar.next_level_door == null:
+		if is_on_floor():
+			move_speed_player.y = -JUMP_POWER
+
+	if Input.is_action_just_pressed(\"action\"):
+		print(\"triggered\")
+		for object in $AttackCol.get_overlapping_areas():
+			print(object.name)
+			if object.name == \"Car\":
+				object.enter_car(self)
+
+
+func set_animation():
+	if is_in_air():
+		$AnimationPlayer.play(\"air\")
+	elif move_speed_player.x < 0:
+		$Sprite.flip_h = true
+		$AnimationPlayer.play(\"walk\")
+	elif move_speed_player.x > 0:
+		$Sprite.flip_h = false
+		$AnimationPlayer.play(\"walk\")
+	elif move_speed_player.x == 0:
+		$AnimationPlayer.play(\"idle\")
+
+func is_in_air():
+	return is_on_floor() == false
+	
+func check_4_stomp():
+	for body in $AttackCol.get_overlapping_bodies():
+		if body.has_method(\"on_stomp\") and body.is_alive:
+			body.on_stomp()
+			move_speed_player.y = -JUMP_POWER
+			
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 4.25305, 4.5628 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "air"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "idle"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 4 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "walk"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 4, 8 ]
+}
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 2.93478, 3.33953 )
+
+[node name="Player" type="KinematicBody2D"]
+collision_layer = 2147483650
+collision/safe_margin = 0.02
+script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 8
+frame = 8
+
+[node name="ColSquare" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 2 )
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/air = SubResource( 3 )
+anims/idle = SubResource( 4 )
+anims/walk = SubResource( 5 )
+
+[node name="AttackCol" type="Area2D" parent="."]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackCol"]
+position = Vector2( 0.0744095, 3.47008 )
+shape = SubResource( 6 )

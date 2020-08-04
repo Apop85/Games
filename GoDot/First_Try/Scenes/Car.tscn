@@ -1,0 +1,105 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/auto.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody2D
+
+onready var wheel1 = $car_container/wheel1
+onready var wheel2 = $car_container/wheel2
+onready var car_container = $car_container
+
+const GRAVITY = 400
+const SPEED = 60 
+const JUMP_POWER = 150
+const UP_VECTOR = Vector2(0,-1)
+const FLOOR_NORMAL = Vector2(0,1)
+const WHEEL_SPEED = 20
+
+
+var is_in = false
+var movement = Vector2(0,0)
+
+func _ready():
+	pass
+
+func _physics_process(delta):
+	movement.x = 0
+	
+	if is_on_floor() or is_on_ceiling():
+		movement.y = 0
+	else:
+		movement.y += GRAVITY * delta
+	
+	if is_in:
+		check_key_input()
+	
+		if movement.x < 0:
+			wheel1.rotation -= WHEEL_SPEED * delta
+			wheel2.rotation -= WHEEL_SPEED * delta
+			
+		if movement.x > 0:
+			wheel1.rotation += WHEEL_SPEED * delta
+			wheel2.rotation += WHEEL_SPEED * delta
+		
+	movement = move_and_slide_with_snap(movement, Vector2(0,1), FLOOR_NORMAL)
+		
+	
+func check_key_input():
+	if Input.is_action_pressed(\"left\"):
+		movement.x -= 1 * SPEED
+	if Input.is_action_pressed(\"right\"):
+		movement.x += 1 * SPEED
+	if Input.is_action_just_pressed(\"jump\"):
+		movement.y = -JUMP_POWER
+	
+func enter_car(player):
+	player.get_parent().remove_child(player)
+	car_container.get_child(player)
+	player.freeze = true
+	is_in = true
+	player.position = Vector2(0,-4)
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 14.0465, 4.66608 )
+
+[node name="Car" type="KinematicBody2D"]
+position = Vector2( 0, -1 )
+z_index = 1
+collision_layer = 4
+script = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.7955, -3.09031 )
+shape = SubResource( 2 )
+
+[node name="car_container" type="Node2D" parent="."]
+
+[node name="car" type="Sprite" parent="car_container"]
+position = Vector2( -15.6889, -12.9489 )
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 32, 13 )
+
+[node name="light" type="Sprite" parent="car_container"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.560784 )
+position = Vector2( 15.6889, -8.70625 )
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 11, 14, 16, 9 )
+
+[node name="wheel1" type="Sprite" parent="car_container"]
+position = Vector2( 9.723, -1 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 1, 15, 5, 5 )
+
+[node name="wheel2" type="Sprite" parent="car_container"]
+position = Vector2( -8.277, -1 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 1, 15, 5, 5 )

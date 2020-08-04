@@ -1,0 +1,88 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Fader.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+onready var in_game = $InGame
+onready var cam = $Camera2D
+onready var fader = $Fader
+
+var level = null
+var player = null
+
+func _ready():
+	add_level()
+	connect_doors()
+	check_4_doors()
+	put_cam_2_player()
+	set_fader_position()
+	fader.fade_in()
+
+
+func set_fader_position():
+	fader.rect_position = cam.get_camera_screen_center()
+	fader.rect_position -= Vector2(80,45)	
+
+
+func _process(delta):
+	set_fader_position()
+
+	
+
+func add_level():
+	level = load(str(\"res://Scenes/Levels/lvl\", GlobalVar.next_level,  \".tscn\")).instance()
+	in_game.add_child(level)
+	
+	player = level.find_node(\"Player\")
+
+
+func put_cam_2_player():
+	remove_child(cam)
+	player.add_child(cam)
+
+
+func check_4_doors():
+	if GlobalVar.next_level_door != null:
+		var door = level.find_node(GlobalVar.next_level_door)
+		player.position = door.position
+		GlobalVar.next_level_door = null
+
+
+func connect_doors():
+	for child in level.find_node(\"Objects\").get_children():
+		if child.name.begins_with(\"Door\"):
+			child.connect(\"enter_door\", self, \"_on_enter_door\")
+
+
+func _on_enter_door():
+	var animation_player = fader.fade_out()
+	yield(animation_player, \"animation_finished\")
+	get_tree().reload_current_scene()
+	get_tree().paused == false
+	
+	
+
+"
+
+[node name="Game" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="InGame" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 0, -17 )
+current = true
+limit_left = -148
+limit_top = -128
+limit_right = 550
+limit_bottom = 410
+limit_smoothed = true
+smoothing_enabled = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="Fader" parent="." instance=ExtResource( 1 )]
+margin_top = -17.0
+margin_bottom = 23.0

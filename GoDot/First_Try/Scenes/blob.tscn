@@ -1,0 +1,197 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://assets/blob/blob_walk_2.png" type="Texture" id=1]
+[ext_resource path="res://assets/blob/blob_walk_0.png" type="Texture" id=2]
+[ext_resource path="res://assets/blob/blob_walk_3.png" type="Texture" id=3]
+[ext_resource path="res://assets/blob/blob_walk_1.png" type="Texture" id=4]
+[ext_resource path="res://assets/blob/blob_die_1.png" type="Texture" id=5]
+[ext_resource path="res://assets/blob/blob_die_0.png" type="Texture" id=6]
+[ext_resource path="res://assets/blob/blob_die_2.png" type="Texture" id=7]
+[ext_resource path="res://assets/blob/blob_jump_0.png" type="Texture" id=8]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody2D
+
+const GRAVITY = 400
+const SPEED = 10
+const JUMP_POWER = 100
+const UP_VECTOR = Vector2(0,-1)
+
+onready var sprite = $AnimatedSprite
+onready var rayL = $RayCastL
+onready var rayLD = $RayCastLD
+onready var rayL2 = $RayCastL2
+onready var rayR = $RayCastR
+onready var rayRD = $RayCastRD
+onready var rayR2 = $RayCastR2
+onready var rayTR = $RayCastTR
+onready var rayTL = $RayCastTL
+
+var movement = Vector2(SPEED, 0)
+var jumpX = 0
+var is_alive = true
+var direction = 1
+
+
+func _ready():
+	sprite.play(\"walk\")
+
+func _physics_process(delta):
+	if not is_alive:
+		return
+		
+	movement.y += GRAVITY * delta
+	
+	# Gravity calculation
+	if is_on_floor():
+		if sprite.animation == \"jump\":
+			on_landing()
+		else:
+			movement.y = 0
+			if is_on_wall() and jump_possible():
+				jump()
+				
+			elif is_over_abyss() and is_stair():
+				pass
+				
+			elif is_over_abyss() and overcome_abyss():
+				jump()
+				
+			elif is_on_wall() or is_over_abyss():
+				turn()
+
+	move_and_slide_with_snap(movement, Vector2(0,1), UP_VECTOR)
+
+
+func on_stomp():
+	sprite.play(\"die\")
+	is_alive = false
+
+
+func is_over_abyss():
+	rayL.force_raycast_update()
+	rayR.force_raycast_update()
+	if direction == 1:
+		return rayR.get_collider() == null
+	else:
+		return rayL.get_collider() == null
+
+func is_stair():
+	rayLD.force_raycast_update()
+	rayRD.force_raycast_update()
+	if direction == 1:
+		return rayRD.get_collider() != null
+	else:
+		return rayLD.get_collider() != null
+
+func overcome_abyss():
+	rayL2.force_raycast_update()
+	rayR2.force_raycast_update()
+	if direction == 1:
+		return rayR2.get_collider() != null
+	else:
+		return rayL2.get_collider() != null
+
+
+func jump_possible():
+	rayTR.force_raycast_update()
+	rayTL.force_raycast_update()
+	if direction == 1:
+		return rayTR.get_collider() == null
+	else:
+		return rayTL.get_collider() == null
+
+func jump():
+	sprite.play(\"jump\")
+	sprite.flip_h = not sprite.flip_h
+	movement.x = SPEED * direction * 4
+	movement.y = -JUMP_POWER
+	jumpX = floor(position.x)
+	
+	
+func on_landing():
+	sprite.play(\"walk\")
+	sprite.flip_h = not sprite.flip_h
+	movement.x = SPEED * direction
+	movement.y = 0
+	if floor(position.x) == jumpX:
+		turn()
+		
+
+func turn():
+	direction *= -1
+	movement.x = SPEED * direction
+	sprite.flip_h = not sprite.flip_h
+
+
+func _on_die_animation_finished():
+	if sprite.animation == \"die\":
+		queue_free()
+	
+"
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 1 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 5 ), ExtResource( 7 ) ],
+"loop": false,
+"name": "die",
+"speed": 15.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 6.95841, 2.26075 )
+
+[node name="Blob" type="KinematicBody2D"]
+script = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -8 )
+frames = SubResource( 2 )
+animation = "jump"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.649647, -2.28891 )
+shape = SubResource( 3 )
+
+[node name="RayCastL" type="RayCast2D" parent="."]
+position = Vector2( -6.28187, -0.558834 )
+cast_to = Vector2( 0, 1 )
+
+[node name="RayCastLD" type="RayCast2D" parent="."]
+position = Vector2( -8.28187, -0.558834 )
+cast_to = Vector2( 0, 13 )
+
+[node name="RayCastL2" type="RayCast2D" parent="."]
+position = Vector2( -25.2819, -0.558834 )
+cast_to = Vector2( 0, 1 )
+
+[node name="RayCastR" type="RayCast2D" parent="."]
+position = Vector2( 7.55897, -0.562823 )
+cast_to = Vector2( 0, 1 )
+
+[node name="RayCastRD" type="RayCast2D" parent="."]
+position = Vector2( 9.55897, -0.562823 )
+cast_to = Vector2( 0, 13 )
+
+[node name="RayCastR2" type="RayCast2D" parent="."]
+position = Vector2( 26.559, -0.562823 )
+cast_to = Vector2( 0, 1 )
+
+[node name="RayCastTR" type="RayCast2D" parent="."]
+position = Vector2( 6.80204, -12.8336 )
+cast_to = Vector2( 3, 0 )
+
+[node name="RayCastTL" type="RayCast2D" parent="."]
+position = Vector2( -5.23246, -12.8244 )
+cast_to = Vector2( -3, 0 )
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_die_animation_finished"]
