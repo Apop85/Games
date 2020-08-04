@@ -11,15 +11,17 @@ onready var wheel2 = $car_container/wheel2
 onready var car_container = $car_container
 
 const GRAVITY = 400
-const SPEED = 60 
+const SPEED = 100 
 const JUMP_POWER = 150
 const UP_VECTOR = Vector2(0,-1)
 const FLOOR_NORMAL = Vector2(0,1)
 const WHEEL_SPEED = 20
 
 # Set car defaults 
+var starting_pos = Vector2(0,0)
 var is_in = false
 var movement = Vector2(0,0)
+var player
 
 func _ready():
 	pass
@@ -27,14 +29,8 @@ func _ready():
 func _physics_process(delta):
 #	Set speed of x axis to 0
 	movement.x = 0
-	
-#	Check if car hits floor or ceiling
-	if is_on_floor() or is_on_ceiling():
-#		Disable gravity
-		movement.y = 0
-	else:
-#		Enable gravity
-		movement.y += GRAVITY * delta
+#	Set gravity over time
+	movement.y += GRAVITY * delta
 	
 #	If player is inside car
 	if is_in:
@@ -50,7 +46,8 @@ func _physics_process(delta):
 			wheel2.rotation += WHEEL_SPEED * delta
 
 #	Check if car is colliding 
-	movement = move_and_slide_with_snap(movement, Vector2(0,1), FLOOR_NORMAL)
+#	movement = move_and_slide_with_snap(movement, Vector2(0,1), FLOOR_NORMAL)
+	movement = move_and_slide(movement, UP_VECTOR)
 		
 	
 func check_key_input():
@@ -61,19 +58,39 @@ func check_key_input():
 		movement.x += 1 * SPEED
 	if Input.is_action_just_pressed(\"jump\"):
 		movement.y = -JUMP_POWER
+	if Input.is_action_just_pressed(\"action\") and is_in:
+#		player = car_container.get_child(\"Player\")
+		for child in self.get_children():
+			if child.name == \"Player\":
+#				Call enter_car function of Car
+				enter_car(child, false)
+
+		
 	
-func enter_car(player):
-#	Remove player element from parent
-	player.get_parent().remove_child(player)
-#	Add player as child of car
-	add_child(player)
-#	Set z index of car
-	car_container.set_z_index(1)
-#	Freeze player animation
-	player.freeze = true
-	is_in = true
-#	Adjust player position in car
-	player.position = Vector2(0,-12)
+func enter_car(player, getin):
+	if getin:
+		starting_pos = self.position
+	#	Remove player element from parent
+		player.get_parent().remove_child(player)
+	#	Add player as child of car
+		add_child(player)
+	#	Set z index of car
+		car_container.set_z_index(1)
+	#	Freeze player animation
+		player.freeze = true
+		is_in = true
+	#	Adjust player position in car
+		player.position = Vector2(0,-12)
+	else:
+		player.get_parent().remove_child(player)
+		self.get_parent().get_parent().add_child(player)
+#		print(car_parent.name)
+		is_in = false
+		player.freeze = false
+		player.position = self.position
+		self.position = starting_pos
+#		return player
+		
 "
 
 [sub_resource type="RectangleShape2D" id=2]

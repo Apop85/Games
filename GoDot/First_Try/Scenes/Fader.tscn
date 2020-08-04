@@ -23,7 +23,6 @@ func fade_out():
 
 [sub_resource type="Animation" id=2]
 resource_name = "fadeIn"
-length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:color")
 tracks/0/interp = 1
@@ -31,7 +30,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
@@ -39,7 +38,6 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "fadeOut"
-length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:color")
 tracks/0/interp = 1
@@ -47,7 +45,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
@@ -57,7 +55,7 @@ tracks/0/keys = {
 margin_right = 40.0
 margin_bottom = 40.0
 rect_scale = Vector2( 4.09676, 2.35627 )
-color = Color( 0, 0, 0, 1 )
+color = Color( 0, 0, 0, 0 )
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

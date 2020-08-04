@@ -33,7 +33,6 @@ var jumpX = 0
 var is_alive = true
 var direction = 1
 
-
 func _ready():
 	sprite.play(\"walk\")
 
@@ -201,7 +200,7 @@ position = Vector2( -6.28187, -0.558834 )
 cast_to = Vector2( 0, 1 )
 
 [node name="RayCastLD" type="RayCast2D" parent="."]
-position = Vector2( -8.28187, -0.558834 )
+position = Vector2( -7.28187, -0.558834 )
 cast_to = Vector2( 0, 13 )
 
 [node name="RayCastL2" type="RayCast2D" parent="."]
@@ -213,7 +212,7 @@ position = Vector2( 7.55897, -0.562823 )
 cast_to = Vector2( 0, 1 )
 
 [node name="RayCastRD" type="RayCast2D" parent="."]
-position = Vector2( 9.55897, -0.562823 )
+position = Vector2( 8.55897, -0.562823 )
 cast_to = Vector2( 0, 13 )
 
 [node name="RayCastR2" type="RayCast2D" parent="."]
@@ -222,9 +221,9 @@ cast_to = Vector2( 0, 1 )
 
 [node name="RayCastTR" type="RayCast2D" parent="."]
 position = Vector2( 6.80204, -12.8336 )
-cast_to = Vector2( 3, 0 )
+cast_to = Vector2( 10, 0 )
 
 [node name="RayCastTL" type="RayCast2D" parent="."]
 position = Vector2( -5.23246, -12.8244 )
-cast_to = Vector2( -3, 0 )
+cast_to = Vector2( -10, 0 )
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_die_animation_finished"]

@@ -25,6 +25,8 @@ func _physics_process(delta):
 			GlobalVar.next_level = level_number
 #			Emit signal to trigger event
 			emit_signal(\"enter_door\")
+
+#	GlobalVar.next_level_door = null
 "
 
 [sub_resource type="RectangleShape2D" id=2]

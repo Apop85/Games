@@ -76,8 +76,26 @@ func _on_enter_door():
 	var animation_player = fader.fade_out()
 #	Wait until animation ended
 	yield(animation_player, \"animation_finished\")
-#	Reload scene
-	get_tree().reload_current_scene()
+	
+#	Get current door
+	var door = level.find_node(GlobalVar.next_level_door)
+#	Get current level
+	var current_level = door.level_number
+	
+#	If target in same level --> teleport
+	if current_level == GlobalVar.next_level:
+#		Set new position
+		player.position = door.position
+#		Fade in
+		animation_player = fader.fade_in()
+		yield(animation_player, \"animation_finished\")
+	else:
+#		Load new level
+		get_tree().reload_current_scene()
+	
+	#	Reset global variable
+	GlobalVar.next_level_door = null
+	GlobalVar.next_level = null
 #	Undo pause state
 	get_tree().paused == false
 	

@@ -13,6 +13,8 @@ const UP_VECTOR = Vector2(0,-1)
 
 var freeze = false
 var move_speed_player = Vector2()
+var is_in = false
+var player = self
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -54,7 +56,8 @@ func check_key_input():
 		for object in $AttackCol.get_overlapping_bodies():
 			if object.name == \"Car\":
 #				Call enter_car function of Car
-				object.enter_car(self)
+				object.enter_car(self, true)
+
 
 
 func set_animation():
@@ -138,7 +141,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 2.93478, 0.692298 )
+extents = Vector2( 4.85077, 0.692298 )
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2147483650
