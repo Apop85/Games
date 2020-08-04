@@ -50,10 +50,8 @@ func check_key_input():
 			move_speed_player.y = -JUMP_POWER
 
 	if Input.is_action_just_pressed(\"action\"):
-		print(\"triggered\")
 #		Check if there is an overlapping area called \"Car\"
 		for object in $AttackCol.get_overlapping_bodies():
-			print(object.name)
 			if object.name == \"Car\":
 #				Call enter_car function of Car
 				object.enter_car(self)
@@ -87,7 +85,7 @@ func check_4_stomp():
 "
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 4.25305, 4.5628 )
+extents = Vector2( 4.92517, 5.02735 )
 
 [sub_resource type="Animation" id=3]
 resource_name = "air"
@@ -140,7 +138,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 2.93478, 3.33953 )
+extents = Vector2( 2.93478, 0.692298 )
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2147483650
@@ -151,10 +149,10 @@ script = SubResource( 1 )
 texture = ExtResource( 1 )
 vframes = 8
 hframes = 8
-frame = 8
+frame = 5
 
 [node name="ColSquare" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 2 )
+position = Vector2( 0, 3 )
 shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -163,6 +161,7 @@ anims/idle = SubResource( 4 )
 anims/walk = SubResource( 5 )
 
 [node name="AttackCol" type="Area2D" parent="."]
+position = Vector2( 0, 4 )
 collision_layer = 2147483649
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackCol"]
