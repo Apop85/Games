@@ -17,6 +17,7 @@ const SPEED = 10
 const JUMP_POWER = 100
 const UP_VECTOR = Vector2(0,-1)
 
+# Get sprite and ray casts
 onready var sprite = $AnimatedSprite
 onready var rayL = $RayCastL
 onready var rayLD = $RayCastLD
@@ -39,54 +40,72 @@ func _ready():
 func _physics_process(delta):
 	if not is_alive:
 		return
-		
+#	set default gravity
 	movement.y += GRAVITY * delta
 	
 	# Gravity calculation
+#	If collision with floor
 	if is_on_floor():
+#		If animation name is \"jump\"
 		if sprite.animation == \"jump\":
+#			Play landing animation
 			on_landing()
 		else:
+#			Disable gravity
 			movement.y = 0
+			
+#			If collision with wall and top of the wall is reachable
 			if is_on_wall() and jump_possible():
 				jump()
 				
+#			If over an abyss and the bottom is just one tile away
 			elif is_over_abyss() and is_stair():
 				pass
-				
+			
+#			If over an abyss and opposite site is reachable
 			elif is_over_abyss() and overcome_abyss():
 				jump()
-				
+			
+#			If collision with wall and over an abyss which can't be jumped over
 			elif is_on_wall() or is_over_abyss():
 				turn()
 
+#	Check for collisions
 	move_and_slide_with_snap(movement, Vector2(0,1), UP_VECTOR)
 
 
 func on_stomp():
+#	Play die animation
 	sprite.play(\"die\")
+#	Set enemy to dead
 	is_alive = false
 
 
 func is_over_abyss():
+#	Update rays
 	rayL.force_raycast_update()
 	rayR.force_raycast_update()
+#	Depending on direction check collisions
 	if direction == 1:
 		return rayR.get_collider() == null
 	else:
 		return rayL.get_collider() == null
 
 func is_stair():
+#	Update rays
 	rayLD.force_raycast_update()
 	rayRD.force_raycast_update()
+#	Depending on direction check collisions
 	if direction == 1:
 		return rayRD.get_collider() != null
 	else:
 		return rayLD.get_collider() != null
 
 func overcome_abyss():
+	#	Update rays
 	rayL2.force_raycast_update()
 	rayR2.force_raycast_update()
+#	Depending on direction check collisions
 	if direction == 1:
 		return rayR2.get_collider() != null
 	else:
@@ -94,38 +113,52 @@ func overcome_abyss():
 
 
 func jump_possible():
+	#	Update rays
 	rayTR.force_raycast_update()
 	rayTL.force_raycast_update()
+#	Depending on direction check collisions
 	if direction == 1:
 		return rayTR.get_collider() == null
 	else:
 		return rayTL.get_collider() == null
 
 func jump():
+#	Play jump animation
 	sprite.play(\"jump\")
+#	Flip jump animation
 	sprite.flip_h = not sprite.flip_h
+#	Increase speed while jumping
 	movement.x = SPEED * direction * 4
 	movement.y = -JUMP_POWER
+#	Save position
 	jumpX = floor(position.x)
 	
 	
 func on_landing():
+#	Play walk animation 
 	sprite.play(\"walk\")
+#	Flip animation
 	sprite.flip_h = not sprite.flip_h
+#	Reset speed
 	movement.x = SPEED * direction
+#	Reset gravity
 	movement.y = 0
+#	Turn if landing point == starting point
 	if floor(position.x) == jumpX:
 		turn()
 		
 
 func turn():
+#	Reverse x axis speed
 	direction *= -1
 	movement.x = SPEED * direction
+#	Flip sprite
 	sprite.flip_h = not sprite.flip_h
 
 
 func _on_die_animation_finished():
 	if sprite.animation == \"die\":
+#		Delete enemy from game
 		queue_free()
 	
 "

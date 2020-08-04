@@ -5,6 +5,7 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
 
+# Get different elements of car
 onready var wheel1 = $car_container/wheel1
 onready var wheel2 = $car_container/wheel2
 onready var car_container = $car_container
@@ -16,7 +17,7 @@ const UP_VECTOR = Vector2(0,-1)
 const FLOOR_NORMAL = Vector2(0,1)
 const WHEEL_SPEED = 20
 
-
+# Set car defaults 
 var is_in = false
 var movement = Vector2(0,0)
 
@@ -24,16 +25,22 @@ func _ready():
 	pass
 
 func _physics_process(delta):
+#	Set speed of x axis to 0
 	movement.x = 0
 	
+#	Check if car hits floor or ceiling
 	if is_on_floor() or is_on_ceiling():
+#		Disable gravity
 		movement.y = 0
 	else:
+#		Enable gravity
 		movement.y += GRAVITY * delta
 	
+#	If player is inside car
 	if is_in:
 		check_key_input()
 	
+#		Alter wheel rotation depending on direction
 		if movement.x < 0:
 			wheel1.rotation -= WHEEL_SPEED * delta
 			wheel2.rotation -= WHEEL_SPEED * delta
@@ -41,11 +48,13 @@ func _physics_process(delta):
 		if movement.x > 0:
 			wheel1.rotation += WHEEL_SPEED * delta
 			wheel2.rotation += WHEEL_SPEED * delta
-		
+
+#	Check if car is colliding 
 	movement = move_and_slide_with_snap(movement, Vector2(0,1), FLOOR_NORMAL)
 		
 	
 func check_key_input():
+#	Check which key is or was pressed
 	if Input.is_action_pressed(\"left\"):
 		movement.x -= 1 * SPEED
 	if Input.is_action_pressed(\"right\"):
@@ -54,10 +63,14 @@ func check_key_input():
 		movement.y = -JUMP_POWER
 	
 func enter_car(player):
+#	Remove player element from parent
 	player.get_parent().remove_child(player)
-	car_container.get_child(player)
+#	Add player as child of car
+	car_container.add_child(player)
+#	Freeze player animation
 	player.freeze = true
 	is_in = true
+#	Adjust player position in car
 	player.position = Vector2(0,-4)
 "
 

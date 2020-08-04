@@ -52,7 +52,7 @@ func check_key_input():
 	if Input.is_action_just_pressed(\"action\"):
 		print(\"triggered\")
 #		Check if there is an overlapping area called \"Car\"
-		for object in $AttackCol.get_overlapping_areas():
+		for object in $AttackCol.get_overlapping_bodies():
 			print(object.name)
 			if object.name == \"Car\":
 #				Call enter_car function of Car
