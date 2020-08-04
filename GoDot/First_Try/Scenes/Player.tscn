@@ -9,9 +9,7 @@ const GRAVITY = 400
 const SPEED = 60 
 const JUMP_POWER = 150
 const UP_VECTOR = Vector2(0,-1)
-# Declare member variables here. Examples:
-# var a = 2
-# var b = \"text\"
+
 
 var freeze = false
 var move_speed_player = Vector2()
@@ -40,6 +38,7 @@ func _process(delta):
 
 
 func check_key_input():
+#	Key inputs are setup in project --> project preferences
 	if Input.is_action_pressed(\"left\"):
 		move_speed_player.x = -1 * SPEED
 
@@ -52,13 +51,16 @@ func check_key_input():
 
 	if Input.is_action_just_pressed(\"action\"):
 		print(\"triggered\")
+#		Check if there is an overlapping area called \"Car\"
 		for object in $AttackCol.get_overlapping_areas():
 			print(object.name)
 			if object.name == \"Car\":
+#				Call enter_car function of Car
 				object.enter_car(self)
 
 
 func set_animation():
+#	Play different animations depending on state
 	if is_in_air():
 		$AnimationPlayer.play(\"air\")
 	elif move_speed_player.x < 0:
@@ -74,9 +76,12 @@ func is_in_air():
 	return is_on_floor() == false
 	
 func check_4_stomp():
+#	Check if enemy hitbox is overlapping the AttackBox of Player
 	for body in $AttackCol.get_overlapping_bodies():
 		if body.has_method(\"on_stomp\") and body.is_alive:
+#			Call on_stomp function if aviable
 			body.on_stomp()
+#			Jump after enemy stomp
 			move_speed_player.y = -JUMP_POWER
 			
 "
@@ -158,8 +163,7 @@ anims/idle = SubResource( 4 )
 anims/walk = SubResource( 5 )
 
 [node name="AttackCol" type="Area2D" parent="."]
-collision_layer = 7
-collision_mask = 7
+collision_layer = 2147483649
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackCol"]
 position = Vector2( 0.0744095, 3.47008 )

@@ -8,12 +8,15 @@ func _ready():
 	pass
 
 func fade_in():
+#	Play fade in animation
 	$AnimationPlayer.play(\"fadeIn\")
 	return $AnimationPlayer
 	
 	
 func fade_out():
+#	Set game on pause
 	get_tree().paused == true
+#	Play fade out animation
 	$AnimationPlayer.play(\"fadeOut\")
 	return $AnimationPlayer
 "
