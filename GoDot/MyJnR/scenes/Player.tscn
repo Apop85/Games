@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://sprites/PlayerSprites.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
@@ -6,11 +6,26 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 3.12429, 7.94698 )
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 10, 3.61674 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "idle"
+[sub_resource type="Animation" id=3]
+resource_name = "climb"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 14, 19 ]
+}
+
+[sub_resource type="Animation" id=4]
 length = 1.2
 loop = true
 tracks/0/type = "value"
@@ -26,24 +41,7 @@ tracks/0/keys = {
 "values": [ 4, 8 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "jump_fast"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 13 ]
-}
-
-[sub_resource type="Animation" id=7]
-resource_name = "jump_slow"
+[sub_resource type="Animation" id=5]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -59,8 +57,23 @@ tracks/0/keys = {
 "values": [ 12 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "run"
+[sub_resource type="Animation" id=6]
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 14 ]
+}
+
+[sub_resource type="Animation" id=7]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -76,8 +89,7 @@ tracks/0/keys = {
 "values": [ 0, 4, 0 ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "slide"
+[sub_resource type="Animation" id=8]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -89,11 +101,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 14 ]
+"values": [ 13 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "walk"
+[sub_resource type="Animation" id=9]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -109,7 +120,7 @@ tracks/0/keys = {
 "values": [ 8, 12, 8 ]
 }
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 2.14987, 7.97025 )
 
 [node name="Player" type="KinematicBody2D"]
@@ -117,35 +128,49 @@ script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-vframes = 4
+vframes = 5
 hframes = 4
-frame = 11
+frame = 5
 region_rect = Rect2( 4.23868, -0.744033, 8.7572, 15.6379 )
 
 [node name="Standing_Collision" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0.0625, 0.0390625 )
 shape = SubResource( 1 )
 
 [node name="Sliding_Collision" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0.110485, 4.35313 )
-shape = SubResource( 8 )
+shape = SubResource( 2 )
 disabled = true
 
 [node name="Sliding_Ray" type="RayCast2D" parent="."]
+visible = false
 position = Vector2( 0, 1 )
 cast_to = Vector2( 0, -8.8 )
 
+[node name="Climbing_Ray_Edge" type="RayCast2D" parent="."]
+visible = false
+position = Vector2( 0, -2 )
+cast_to = Vector2( 6, 0 )
+
+[node name="Climbing_Ray_Space" type="RayCast2D" parent="."]
+visible = false
+position = Vector2( 0, -6 )
+cast_to = Vector2( 15, 0 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/idle = SubResource( 2 )
-anims/jump_fast = SubResource( 6 )
-anims/jump_slow = SubResource( 7 )
-anims/run = SubResource( 3 )
-anims/slide = SubResource( 9 )
-anims/walk = SubResource( 4 )
+anims/climb = SubResource( 3 )
+anims/idle = SubResource( 4 )
+anims/jump_fast = SubResource( 5 )
+anims/jump_slow = SubResource( 6 )
+anims/run = SubResource( 7 )
+anims/slide = SubResource( 8 )
+anims/walk = SubResource( 9 )
 
 [node name="HitBox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 visible = false
 position = Vector2( -0.0220966, 0.0994368 )
-shape = SubResource( 5 )
+shape = SubResource( 10 )
