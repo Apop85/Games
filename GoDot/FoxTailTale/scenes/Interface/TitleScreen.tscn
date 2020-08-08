@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/Interface/aAlleyGarden.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://scenes/Interface/ButtonExitGame.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Interface/ButtonNewGame.tscn" type="PackedScene" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+outline_size = 1
+outline_color = Color( 0.760784, 0.478431, 0.0980392, 1 )
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=2]
+default_font = SubResource( 1 )
+Label/colors/font_color = Color( 0, 0, 0, 1 )
+Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
+Label/colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+Label/constants/line_spacing = 3
+Label/constants/shadow_as_outline = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/fonts/font = null
+Label/styles/normal = null
+
+[node name="TitleScreen" type="Control"]
+margin_right = 160.0
+margin_bottom = 90.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="."]
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 140.0
+margin_bottom = 80.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Menu"]
+margin_right = 120.0
+margin_bottom = 17.0
+theme = SubResource( 2 )
+text = "Fox Tail Tale"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu"]
+margin_top = 21.0
+margin_right = 120.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" parent="Menu/HBoxContainer" instance=ExtResource( 2 )]
+margin_right = 58.0
+
+[node name="Button2" parent="Menu/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 62.0
