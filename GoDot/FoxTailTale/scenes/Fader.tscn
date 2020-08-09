@@ -1,0 +1,67 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends ColorRect
+
+
+func _ready():
+	pass
+
+func fade_in():
+#	Play fade in animation
+	$AnimationPlayer.play(\"fadeIn\")
+	return $AnimationPlayer
+	
+	
+func fade_out():
+#	Set game on pause
+	get_tree().paused == true
+#	Play fade out animation
+	$AnimationPlayer.play(\"fadeOut\")
+	return $AnimationPlayer
+"
+
+[sub_resource type="Animation" id=2]
+resource_name = "fadeIn"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "fadeOut"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[node name="Fader" type="ColorRect"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_scale = Vector2( 4.09676, 2.35627 )
+color = Color( 0, 0, 0, 1 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+pause_mode = 2
+anims/fadeIn = SubResource( 2 )
+anims/fadeOut = SubResource( 3 )

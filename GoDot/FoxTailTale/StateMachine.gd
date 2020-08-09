@@ -6,10 +6,23 @@ var state = null setget set_state
 var prev_state = null
 var states = {}
 
+onready var fader = self.get_parent().get_parent().find_node("Fader")
+
+
+#onready var fader = self.get_parent().Fader
+
 onready var parent = get_parent()
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var animation
+	GlobalVariable.level_now = GlobalVariable.next_level
+
+	if fader != null:
+#		var fader = self.get_parent().get_parent().find_node("Fader")
+		animation = fader.fade_in()
+		yield(animation, "animation_finished")
+		fader.visible = false
+	
 
 func _physics_process(delta):
 #	Call state logic and check for animation transitions 

@@ -1,17 +1,26 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/Interface/aAlleyGarden.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://scenes/Interface/ButtonExitGame.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/Interface/ButtonNewGame.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Interface/MenuButton_newgame.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Interface/MenuButton_exit.tscn" type="PackedScene" id=3]
+[ext_resource path="res://sprites/player_Fox.png" type="Texture" id=4]
+[ext_resource path="res://scripts/titleScreen.gd" type="Script" id=5]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.312217, 1 )
+colors = PoolColorArray( 0.141176, 0.32549, 0.152941, 1, 0.184314, 0.27451, 0.176471, 1, 0.0392157, 0.152941, 0.0745098, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
 outline_size = 1
 outline_color = Color( 0.760784, 0.478431, 0.0980392, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="Theme" id=2]
-default_font = SubResource( 1 )
+[sub_resource type="Theme" id=4]
+default_font = SubResource( 3 )
 Label/colors/font_color = Color( 0, 0, 0, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
 Label/colors/font_outline_modulate = Color( 1, 1, 1, 1 )
@@ -23,8 +32,20 @@ Label/fonts/font = null
 Label/styles/normal = null
 
 [node name="TitleScreen" type="Control"]
-margin_right = 160.0
-margin_bottom = 90.0
+margin_left = -80.0
+margin_top = -45.0
+margin_right = 80.0
+margin_bottom = 45.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 2 )
+region_rect = Rect2( 0, -145.594, 1016.49, 145.594 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -41,7 +62,7 @@ __meta__ = {
 [node name="Label" type="Label" parent="Menu"]
 margin_right = 120.0
 margin_bottom = 17.0
-theme = SubResource( 2 )
+theme = SubResource( 4 )
 text = "Fox Tail Tale"
 align = 1
 valign = 1
@@ -50,15 +71,113 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Menu"]
+[node name="CenterRow" type="HBoxContainer" parent="Menu"]
 margin_top = 21.0
 margin_right = 120.0
 margin_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Menu/CenterRow"]
+margin_right = 58.0
+margin_bottom = 49.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Button" parent="Menu/HBoxContainer" instance=ExtResource( 2 )]
+[node name="NewGame Button" parent="Menu/CenterRow/Buttons" instance=ExtResource( 2 )]
 margin_right = 58.0
 
-[node name="Button2" parent="Menu/HBoxContainer" instance=ExtResource( 3 )]
+[node name="Exit Button" parent="Menu/CenterRow/Buttons" instance=ExtResource( 3 )]
+margin_top = 24.0
+margin_right = 58.0
+margin_bottom = 44.0
+
+[node name="Character" type="CenterContainer" parent="Menu/CenterRow"]
 margin_left = 62.0
+margin_right = 120.0
+margin_bottom = 49.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Node2D" type="Node2D" parent="Menu/CenterRow/Character"]
+position = Vector2( -3.64221, 21.0747 )
+scale = Vector2( 0.3, 0.3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="BeinBR" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 195.309, 42.9668 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 37.9689, 66.3188, 34.6983, 61.4288 )
+
+[node name="BeinBL" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 117.438, 39.7884 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 3.0105, 62.722, 31.9995, 64.8987 )
+
+[node name="Schwanz" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 75.722, 8.13691 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( -1.48062, 141.212, 83.1474, 35.5979 )
+
+[node name="Körper" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 150.679, 23.8964 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 3.14921, 2.54532, 116.047, 33.5417 )
+
+[node name="BeinFR" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 188.687, 45.2181 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 37.9689, 66.3188, 34.6983, 61.4288 )
+
+[node name="BeinFL" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 110.552, 41.7749 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 3.0105, 62.722, 31.9995, 64.8987 )
+
+[node name="OhrB" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 216.581, -1.28963 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 102.614, 147.895, 23.3892, 30.2004 )
+
+[node name="Kopf" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 206.552, 15.2282 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 85.3993, 87.8338, 51.1537, 48.6624 )
+
+[node name="AugeF" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 222.06, 8.79907 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 150.034, 64.0078, 6.16858, 6.04007 )
+
+[node name="AugeB" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 207.89, 10.1234 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 150.034, 64.0078, 6.16858, 6.04007 )
+
+[node name="Schnauze" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 233.317, 19.9234 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 85.2636, 49.2278, 44.5937, 28.9152 )
+
+[node name="OhrF" type="Sprite" parent="Menu/CenterRow/Character/Node2D"]
+position = Vector2( 194.754, -2.70545 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 102.614, 147.895, 23.3892, 30.2004 )
+[connection signal="pressed" from="Menu/CenterRow/Buttons/NewGame Button" to="." method="_on_NewGame_Button_pressed"]
+[connection signal="pressed" from="Menu/CenterRow/Buttons/Exit Button" to="." method="_on_Exit_Button_pressed"]

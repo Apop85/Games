@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Interface/aAlleyGarden.ttf" type="DynamicFontData" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://sprites/coin_anim2.png" type="Texture" id=7]
 [ext_resource path="res://sprites/coin_anim5.png" type="Texture" id=8]
 [ext_resource path="res://sprites/coin_anim4.png" type="Texture" id=9]
+[ext_resource path="res://scenes/Fader.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/Interface/PauseScreen.tscn" type="PackedScene" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -20,6 +22,7 @@ animations = [ {
 
 [sub_resource type="DynamicFont" id=2]
 size = 13
+use_filter = true
 font_data = ExtResource( 2 )
 
 [sub_resource type="Theme" id=3]
@@ -77,7 +80,7 @@ __meta__ = {
 position = Vector2( 0.382919, 6.96089 )
 scale = Vector2( 0.531822, 0.499513 )
 frames = SubResource( 1 )
-frame = 4
+frame = 3
 playing = true
 
 [node name="Label" type="Label" parent="UI/UI/Panel"]
@@ -91,3 +94,10 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Fader" parent="." instance=ExtResource( 10 )]
+visible = false
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+
+[node name="PausedOverlay" parent="Overlay" instance=ExtResource( 11 )]

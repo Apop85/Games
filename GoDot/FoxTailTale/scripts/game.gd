@@ -6,10 +6,14 @@ onready var cam = $Camera2D
 onready var fader = $Fader
 onready var interface = $Camera2D/Interface
 onready var score_label = $UI/UI/Panel/Label
+onready var paused_screen = $Overlay/PausedOverlay
 
 var level = null
 var player = null
 var score = 0
+var animation_player
+var paused = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,53 +23,68 @@ func _ready():
 #	check_4_doors()
 	if check: 
 		put_cam_2_player()
+		set_fader_position()
+#		animation_player = fader.fade_in()
+#		yield(animation_player, "animation_finished")
+	if paused:
+		print("_ready ", self.name)
+		
 
+func set_fader_position():
+#	Move fader position to camera position
+	fader.rect_position = cam.get_camera_screen_center()
+	fader.rect_position -= Vector2(80,45)	
+#
+#
+func _process(delta):
+	if paused:
+		print("_process ", self.name)
+#	print(delta)
+#	Update fader position every frame
+	set_fader_position()
+	if GlobalVariable.level_now != GlobalVariable.next_level:
+		fader.visible = true
+		GlobalVariable.level_now = GlobalVariable.next_level
+		
+		animation_player = fader.fade_out()
+		yield(animation_player, "animation_finished")
+		
+		get_tree().reload_current_scene()
+		
+	if Input.is_action_just_pressed("escape") and GlobalVariable.level_now != 0:
+		GlobalVariable.next_level = 0
 	
-#	set_fader_position()
-#	fader.fade_in()
+#	if Input.is_action_just_pressed("pause") and GlobalVariable.level_now != 0:
+#		if level != null:
+#			for item in level.get_children():
+#				print(item.name)
+#			paused = not paused
+#			if paused:
+#			else:
+#				paused_screen.visible = false
+#			level.get_tree().paused = not get_tree().paused
 
-#func locate_cam():
-#	if player != null: 
-#		for item in player.get_children():
-#			if item.name == "Camera2D":
-#				camera = item
-#				return item
 
-#func _physics_process(delta):
-#	print($UI.rect_position)
-#	$UI.rect_position = camera.position
-
-#			print(item.name)
-#		$Control.rect_position.x -= 50
-#		print($Control.rect_position)
-#		print(player.find_node("Camera2D")
-
-#func set_fader_position():
-##	Move fader position to camera position
-#	fader.rect_position = cam.get_camera_screen_center()
-#	fader.rect_position -= Vector2(80,45)	
-#
-#
-#func _process(delta):
-##	Update fader position every frame
-#	set_fader_position()
-#
-#
-#
 func add_level():
+#	Fade screen out
+	#	Wait until animation ended
 #	Get global variable to load level in an instance
 	score = 0
 	score_label.text = str(score)
 	if GlobalVariable.next_level != 0:
 		level = load(str("res://scenes/levels/Level", GlobalVariable.next_level,  ".tscn")).instance()
+		$UI.find_node("UI").visible = true
 	else:
 		level = load(str("res://scenes/Interface/TitleScreen.tscn")).instance()
+		$UI.find_node("UI").visible = false
 #	Add level as child of in_game
 	game_scene.add_child(level)
 
 #	Set player position to level default
 	player = level.find_node("Player")
-	
+#	animation_player = fader.fade_in()
+#	yield(animation_player, "animation_finished")
+#		Load new level
 	if GlobalVariable.next_level == 0:
 		return false
 	else:
@@ -79,6 +98,10 @@ func put_cam_2_player():
 	player.add_child(cam)
 #
 #
+
+func _physics_process(delta):
+	if paused:
+		print("_physics ", self.name)
 #func check_4_doors():
 ##	Is there a door aviable?
 #	if GlobalVar.next_level_door != null:
@@ -103,7 +126,7 @@ func put_cam_2_player():
 ##	Start fading out animation 
 #	var animation_player = fader.fade_out()
 ##	Wait until animation ended
-#	yield(animation_player, \"animation_finished\")
+#	yield(animation_player, "animation_finished")
 #
 ##	Get current door
 #	var door = level.find_node(GlobalVar.next_level_door)
