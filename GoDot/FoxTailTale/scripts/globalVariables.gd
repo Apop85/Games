@@ -15,12 +15,12 @@ const SWIM_DOWN_SPEED = 3 * 16
 const SWIM_SPEED = 3 * 16
 const JUMP_OUT_WATER_SPEED = -160
 
-const LEVEL = 1 << 0
+#const LEVEL = 1 << 0
 const WATER = 1 << 1
 
 var AudioPlayer = AudioStreamPlayer.new()
-var next_level = 0
-var level_now = 0
+var next_level = 2
+var level_now = 2
 var portal = null
 var ressource = null
 

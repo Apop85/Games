@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://sprites/submarine_bubble2.png" type="Texture" id=1]
+[ext_resource path="res://sprites/submarine_bubble1.png" type="Texture" id=2]
+[ext_resource path="res://sprites/submarine_bubble3.png" type="Texture" id=3]
+[ext_resource path="res://scripts/Bubble.gd" type="Script" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 5.50151, 0.474869 )
+
+[node name="Bubble" type="Area2D"]
+collision_layer = 524288
+collision_mask = 2
+script = ExtResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+speed_scale = 2.0
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.185814, -2.97302 )
+shape = SubResource( 2 )

@@ -1,5 +1,9 @@
 extends "res://StateMachine.gd"
 
+#onready var Player = self.get_parent().get_parent().find_node("Player")
+var counter = 0
+var bubble = null
+var bubble_scene
 			
 func _ready():
 #	Add possible states
@@ -38,6 +42,10 @@ func _input(event):
 
 
 func _get_transition(delta):
+	if _has_particle() and state != states.swim:
+		print(bubble_scene.name)
+		parent.remove_child(bubble_scene)
+#		parent.remove_child().find_node("BubbleParticle")
 #	Get abs velocity.x
 	var x_pos = parent.velocity.x if parent.velocity.x >= 0 else -parent.velocity.x 
 	match state:
@@ -119,10 +127,13 @@ func _get_transition(delta):
 			elif x_pos > GlobalVariable.SPEED +1:
 				return states.run
 		states.swim:
-#			if parent._is_in_water():
-#				print("in")
-#				parent.velocity.y -= 2
-#			else:
+#			print(1)
+			
+			if not _has_particle():
+#				Load scene as instance
+				bubble_scene = load(str("res://scenes/Bubble_particle.tscn")).instance()
+				parent.add_child(bubble_scene)
+#			If not in water anymore
 			if not parent._is_in_water():
 				print("out")
 				if parent._is_grounded():
@@ -140,6 +151,14 @@ func _get_transition(delta):
 				return states.jump_air
 	return null
 	
+	
+func _has_particle():
+	for item in parent.get_children():
+		if item.name == "BubbleParticle":
+			item.find_node("Particles2D").lifetime = 1
+			return true
+	return false
+
 func _enter_state(old_state, new_state):
 #	If there is a new state, play
 	if new_state != old_state:
