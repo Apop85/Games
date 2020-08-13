@@ -9,7 +9,6 @@ var states = {}
 onready var fader = self.get_parent().get_parent().find_node("Fader")
 
 
-#onready var fader = self.get_parent().Fader
 
 onready var parent = get_parent()
 # Called when the node enters the scene tree for the first time.

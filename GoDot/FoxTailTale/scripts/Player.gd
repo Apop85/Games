@@ -60,15 +60,18 @@ func _apply_movement():
 		velocity.x = 0
 #	Check for collisions	
 	if not _is_in_water():
+#		On Floor enable snap
 		velocity = move_and_slide_with_snap(velocity, Vector2.DOWN, Vector2.UP)
 	else:
+#		Disable snap in water
 		velocity = move_and_slide(velocity, Vector2.DOWN)
 
 func _can_jump_out_water():
 	var needed_distance_to_surface = 5
+#	????????
 	var space_state = get_world_2d().direct_space_state
+#	Find intersectionpoint to the water surface
 	var result = space_state.intersect_point(swim_level.global_position + Vector2.UP * needed_distance_to_surface, 1, [], GlobalVariable.WATER)
-#	print(velocity.y <= 0 and result.size() == 0)
 	return velocity.y <= 0 and result.size() == 0
 
 func _handle_move_input(var move_speed = GlobalVariable.SPEED):
@@ -96,16 +99,13 @@ func _get_weight():
 
 func _is_in_water():
 	var space_state = get_world_2d().direct_space_state
+#	Find water surface to determine if player is in water
 	var result = space_state.intersect_point(swim_level.global_position, 1, [], GlobalVariable.WATER)
 	return result.size() != 0
-#	water_collider.force_raycast_update()
-#
-#	if $HitBox.get_overlapping_bodies():
-#		return true
-#	else:
-#		return false
+
 
 func _apply_swim_speed(delta):
+#	Handle input inside water
 	var input = -int(Input.is_action_pressed("jump")) + int(Input.is_action_pressed("down"))
 	var y_speed = GlobalVariable.PASSIVE_SWIM_UP_SPEED
 	if input < 0:
@@ -118,16 +118,18 @@ func _apply_swim_speed(delta):
 func _handle_surfacing(delta):
 	if velocity.y < 0:
 		var space_state = get_world_2d().direct_space_state
+#		Find intersectionpoint from water surface
 		var surface_level = swim_level.global_position + Vector2.DOWN * velocity.y * delta
 		var result = space_state.intersect_point(surface_level, 1, [], GlobalVariable.WATER)
+#		if not inside water:
 		if not result:
+#			Adjust speed on surfacing
 			var ray_result = space_state.intersect_ray(surface_level, swim_level.global_position, [], GlobalVariable.WATER)
 			if ray_result:
 				velocity.y = (ray_result.position.y - swim_level.global_position.y) / delta
 	
 func _is_grounded():
 #	Check if collision rays touches the tilemap
-#	var count = 0
 	if not _is_in_water():
 		for ray in floor_rays.get_children():
 			ray.force_raycast_update()

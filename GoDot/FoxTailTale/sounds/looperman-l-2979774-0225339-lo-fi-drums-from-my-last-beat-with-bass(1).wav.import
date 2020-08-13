@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/looperman-l-2979774-0225339-lo-fi-drums-from-my-last-beat-with-bass(1).wav-5decf1d390f6062e99ebce2d3603c298.sample"
+
+[deps]
+
+source_file="res://sounds/looperman-l-2979774-0225339-lo-fi-drums-from-my-last-beat-with-bass(1).wav"
+dest_files=[ "res://.import/looperman-l-2979774-0225339-lo-fi-drums-from-my-last-beat-with-bass(1).wav-5decf1d390f6062e99ebce2d3603c298.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

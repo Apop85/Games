@@ -12,7 +12,7 @@ var level = null
 var player = null
 var score = 0
 var animation_player
-var paused = false
+var start_position = Vector2.ZERO
 
 
 # Called when the node enters the scene tree for the first time.
@@ -26,51 +26,39 @@ func _ready():
 		set_fader_position()
 #		animation_player = fader.fade_in()
 #		yield(animation_player, "animation_finished")
-	if paused:
-		print("_ready ", self.name)
 		
 
 func set_fader_position():
 #	Move fader position to camera position
 	fader.rect_position = cam.get_camera_screen_center()
 	fader.rect_position -= Vector2(80,45)	
-#
-#
+
+
 func _process(delta):
-	if paused:
-		print("_process ", self.name)
-#	print(delta)
+
+
 #	Update fader position every frame
 	set_fader_position()
 	if GlobalVariable.level_now != GlobalVariable.next_level:
 		fader.visible = true
 		GlobalVariable.level_now = GlobalVariable.next_level
 		
+#		Fade out and wait until animation finished
 		animation_player = fader.fade_out()
 		yield(animation_player, "animation_finished")
 		
+#		Reload scene with new level
 		get_tree().reload_current_scene()
 		
 	if Input.is_action_just_pressed("escape") and GlobalVariable.level_now != 0:
 		GlobalVariable.next_level = 0
-	
-#	if Input.is_action_just_pressed("pause") and GlobalVariable.level_now != 0:
-#		if level != null:
-#			for item in level.get_children():
-#				print(item.name)
-#			paused = not paused
-#			if paused:
-#			else:
-#				paused_screen.visible = false
-#			level.get_tree().paused = not get_tree().paused
+
 
 
 func add_level():
-#	Fade screen out
-	#	Wait until animation ended
-#	Get global variable to load level in an instance
 	score = 0
 	score_label.text = str(score)
+#	Get global variable to load level in an instance
 	if GlobalVariable.next_level != 0:
 		level = load(str("res://scenes/levels/Level", GlobalVariable.next_level,  ".tscn")).instance()
 		$UI.find_node("UI").visible = true
@@ -82,9 +70,6 @@ func add_level():
 
 #	Set player position to level default
 	player = level.find_node("Player")
-#	animation_player = fader.fade_in()
-#	yield(animation_player, "animation_finished")
-#		Load new level
 	if GlobalVariable.next_level == 0:
 		return false
 	else:
@@ -96,12 +81,16 @@ func put_cam_2_player():
 	remove_child(cam)
 #	Add new camera position to parent
 	player.add_child(cam)
-#
-#
+#	Save level start position
+	start_position = player.position
+	print(start_position)
 
-func _physics_process(delta):
-	if paused:
-		print("_physics ", self.name)
+
+#func _physics_process(delta):
+#	pass
+
+
+
 #func check_4_doors():
 ##	Is there a door aviable?
 #	if GlobalVar.next_level_door != null:
