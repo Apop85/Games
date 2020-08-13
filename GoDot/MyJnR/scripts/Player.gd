@@ -103,6 +103,7 @@ var target_position
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	print(is_on_floor())
 	move_speed_now = move_speed_player.x
 	if is_in_air():
 		if move_speed_now < 0:
