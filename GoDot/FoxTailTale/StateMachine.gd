@@ -20,7 +20,7 @@ func _ready():
 #		var fader = self.get_parent().get_parent().find_node("Fader")
 		animation = fader.fade_in()
 		yield(animation, "animation_finished")
-		fader.visible = false
+#		fader.visible = false
 	
 
 func _physics_process(delta):
