@@ -630,16 +630,16 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 } ]
 1/z_index = 0
 
-[sub_resource type="ShaderMaterial" id=54]
+[sub_resource type="ShaderMaterial" id=53]
 shader = ExtResource( 14 )
 shader_param/blue_tint = Color( 0.117647, 0.784314, 1, 1 )
-shader_param/sprite_scale = Vector2( 50, 50 )
+shader_param/sprite_scale = Vector2( 120, 50 )
 shader_param/scale_x = 0.08
 
-[sub_resource type="ConvexPolygonShape2D" id=55]
+[sub_resource type="ConvexPolygonShape2D" id=54]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 
-[sub_resource type="TileSet" id=56]
+[sub_resource type="TileSet" id=55]
 0/name = "submarine_sprites.png 0"
 0/texture = ExtResource( 7 )
 0/tex_offset = Vector2( 0, 0 )
@@ -664,19 +664,19 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 1/navigation_offset = Vector2( 0, 0 )
 1/shape_offset = Vector2( 0, 0 )
 1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-1/shape = SubResource( 55 )
+1/shape = SubResource( 54 )
 1/shape_one_way = false
 1/shape_one_way_margin = 1.0
 1/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 55 ),
+"shape": SubResource( 54 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 1/z_index = 0
 
-[sub_resource type="Animation" id=57]
+[sub_resource type="Animation" id=56]
 length = 4.0
 loop = true
 tracks/0/type = "value"
@@ -692,7 +692,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( -16, 0 ) ]
 }
 
-[sub_resource type="SpriteFrames" id=58]
+[sub_resource type="SpriteFrames" id=57]
 animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ), ExtResource( 8 ) ],
 "loop": true,
@@ -726,9 +726,9 @@ tile_data = PoolIntArray( -524186, 1, 0, -524185, 1, 1, -524184, 1, 1, -524183, 
 position = Vector2( 1199.73, 352.157 )
 
 [node name="Water" type="TileMap" parent="."]
-material = SubResource( 54 )
+material = SubResource( 53 )
 z_index = 3
-tile_set = SubResource( 56 )
+tile_set = SubResource( 55 )
 cell_size = Vector2( 16, 16 )
 collision_layer = 2
 collision_mask = 2
@@ -736,7 +736,7 @@ format = 1
 tile_data = PoolIntArray( 1638413, 1, 0, 1638414, 1, 0, 1638415, 1, 0, 1638416, 1, 0, 1638417, 1, 0, 1638418, 1, 0, 1638419, 1, 0, 1638420, 1, 0, 1638421, 1, 0, 1638422, 1, 0, 1638423, 1, 0, 1638424, 1, 0, 1638425, 1, 0, 1638426, 1, 0, 1638427, 1, 0, 1638428, 1, 0, 1638429, 1, 0, 1638430, 1, 0, 1638431, 1, 0, 1638432, 1, 0, 1638433, 1, 0, 1638434, 1, 0, 1638435, 1, 0, 1638436, 1, 0, 1638437, 1, 0, 1638438, 1, 0, 1638439, 1, 0, 1638440, 1, 0, 1638441, 1, 0, 1638442, 1, 0, 1638443, 1, 0, 1638444, 1, 0, 1638445, 1, 0, 1638446, 1, 0, 1638447, 1, 0, 1638448, 1, 0, 1638449, 1, 0, 1638450, 1, 0, 1638451, 1, 0, 1638452, 1, 0, 1638453, 1, 0, 1638454, 1, 0, 1638455, 1, 0, 1638456, 1, 0, 1638457, 1, 0, 1638458, 1, 0, 1638459, 1, 0, 1638460, 1, 0, 1638461, 1, 0, 1638462, 1, 0, 1638463, 1, 0, 1638464, 1, 0, 1638465, 1, 0, 1638466, 1, 0, 1638467, 1, 0, 1638468, 1, 0, 1638469, 1, 0, 1638470, 1, 0, 1638471, 1, 0, 1638472, 1, 0, 1638473, 1, 0, 1638474, 1, 0, 1638475, 1, 0, 1638476, 1, 0, 1638477, 1, 0, 1638478, 1, 0, 1638479, 1, 0, 1638480, 1, 0, 1638481, 1, 0, 1638482, 1, 0, 1638483, 1, 0, 1638484, 1, 0, 1638485, 1, 0, 1638486, 1, 0, 1638487, 1, 0, 1638488, 1, 0, 1638489, 1, 0, 1638490, 1, 0, 1703949, 1, 0, 1703950, 1, 0, 1703951, 1, 0, 1703952, 1, 0, 1703953, 1, 0, 1703954, 1, 0, 1703955, 1, 0, 1703956, 1, 0, 1703957, 1, 0, 1703958, 1, 0, 1703959, 1, 0, 1703960, 1, 0, 1703961, 1, 0, 1703962, 1, 0, 1703963, 1, 0, 1703964, 1, 0, 1703965, 1, 0, 1703966, 1, 0, 1703967, 1, 0, 1703968, 1, 0, 1703969, 1, 0, 1703970, 1, 0, 1703971, 1, 0, 1703972, 1, 0, 1703973, 1, 0, 1703974, 1, 0, 1703975, 1, 0, 1703976, 1, 0, 1703977, 1, 0, 1703978, 1, 0, 1703979, 1, 0, 1703980, 1, 0, 1703981, 1, 0, 1703982, 1, 0, 1703983, 1, 0, 1703984, 1, 0, 1703985, 1, 0, 1703986, 1, 0, 1703987, 1, 0, 1703988, 1, 0, 1703989, 1, 0, 1703990, 1, 0, 1703991, 1, 0, 1703992, 1, 0, 1703993, 1, 0, 1703994, 1, 0, 1703995, 1, 0, 1703996, 1, 0, 1703997, 1, 0, 1703998, 1, 0, 1703999, 1, 0, 1704000, 1, 0, 1704001, 1, 0, 1704002, 1, 0, 1704003, 1, 0, 1704004, 1, 0, 1704005, 1, 0, 1704006, 1, 0, 1704007, 1, 0, 1704008, 1, 0, 1704009, 1, 0, 1704010, 1, 0, 1704011, 1, 0, 1704012, 1, 0, 1704013, 1, 0, 1704014, 1, 0, 1704015, 1, 0, 1704016, 1, 0, 1704017, 1, 0, 1704018, 1, 0, 1704019, 1, 0, 1704020, 1, 0, 1704021, 1, 0, 1704022, 1, 0, 1704023, 1, 0, 1704024, 1, 0, 1704025, 1, 0, 1704026, 1, 0, 1769485, 1, 0, 1769486, 1, 0, 1769487, 1, 0, 1769488, 1, 0, 1769489, 1, 0, 1769490, 1, 0, 1769491, 1, 0, 1769492, 1, 0, 1769493, 1, 0, 1769494, 1, 0, 1769495, 1, 0, 1769496, 1, 0, 1769497, 1, 0, 1769498, 1, 0, 1769499, 1, 0, 1769500, 1, 0, 1769501, 1, 0, 1769502, 1, 0, 1769503, 1, 0, 1769504, 1, 0, 1769505, 1, 0, 1769506, 1, 0, 1769507, 1, 0, 1769508, 1, 0, 1769509, 1, 0, 1769510, 1, 0, 1769511, 1, 0, 1769512, 1, 0, 1769513, 1, 0, 1769514, 1, 0, 1769515, 1, 0, 1769516, 1, 0, 1769517, 1, 0, 1769518, 1, 0, 1769519, 1, 0, 1769520, 1, 0, 1769521, 1, 0, 1769522, 1, 0, 1769523, 1, 0, 1769524, 1, 0, 1769525, 1, 0, 1769526, 1, 0, 1769527, 1, 0, 1769528, 1, 0, 1769529, 1, 0, 1769530, 1, 0, 1769531, 1, 0, 1769532, 1, 0, 1769533, 1, 0, 1769534, 1, 0, 1769535, 1, 0, 1769536, 1, 0, 1769537, 1, 0, 1769538, 1, 0, 1769539, 1, 0, 1769540, 1, 0, 1769541, 1, 0, 1769542, 1, 0, 1769543, 1, 0, 1769544, 1, 0, 1769545, 1, 0, 1769546, 1, 0, 1769547, 1, 0, 1769548, 1, 0, 1769549, 1, 0, 1769550, 1, 0, 1769551, 1, 0, 1769552, 1, 0, 1769553, 1, 0, 1769554, 1, 0, 1769555, 1, 0, 1769556, 1, 0, 1769557, 1, 0, 1769558, 1, 0, 1769559, 1, 0, 1769560, 1, 0, 1769561, 1, 0, 1769562, 1, 0, 1835021, 1, 0, 1835022, 1, 0, 1835023, 1, 0, 1835024, 1, 0, 1835025, 1, 0, 1835026, 1, 0, 1835027, 1, 0, 1835028, 1, 0, 1835029, 1, 0, 1835030, 1, 0, 1835031, 1, 0, 1835032, 1, 0, 1835033, 1, 0, 1835034, 1, 0, 1835035, 1, 0, 1835036, 1, 0, 1835037, 1, 0, 1835038, 1, 0, 1835039, 1, 0, 1835040, 1, 0, 1835041, 1, 0, 1835042, 1, 0, 1835043, 1, 0, 1835044, 1, 0, 1835045, 1, 0, 1835046, 1, 0, 1835047, 1, 0, 1835048, 1, 0, 1835049, 1, 0, 1835050, 1, 0, 1835051, 1, 0, 1835052, 1, 0, 1835053, 1, 0, 1835054, 1, 0, 1835055, 1, 0, 1835056, 1, 0, 1835057, 1, 0, 1835058, 1, 0, 1835059, 1, 0, 1835060, 1, 0, 1835061, 1, 0, 1835062, 1, 0, 1835063, 1, 0, 1835064, 1, 0, 1835065, 1, 0, 1835066, 1, 0, 1835067, 1, 0, 1835068, 1, 0, 1835069, 1, 0, 1835070, 1, 0, 1835071, 1, 0, 1835072, 1, 0, 1835073, 1, 0, 1835074, 1, 0, 1835075, 1, 0, 1835076, 1, 0, 1835077, 1, 0, 1835078, 1, 0, 1835079, 1, 0, 1835080, 1, 0, 1835081, 1, 0, 1835082, 1, 0, 1835083, 1, 0, 1835084, 1, 0, 1835085, 1, 0, 1835086, 1, 0, 1835087, 1, 0, 1835088, 1, 0, 1835089, 1, 0, 1835090, 1, 0, 1835091, 1, 0, 1835092, 1, 0, 1835093, 1, 0, 1835094, 1, 0, 1835095, 1, 0, 1835096, 1, 0, 1835097, 1, 0, 1835098, 1, 0, 1900557, 1, 0, 1900558, 1, 0, 1900559, 1, 0, 1900560, 1, 0, 1900561, 1, 0, 1900562, 1, 0, 1900563, 1, 0, 1900564, 1, 0, 1900565, 1, 0, 1900566, 1, 0, 1900567, 1, 0, 1900568, 1, 0, 1900569, 1, 0, 1900570, 1, 0, 1900571, 1, 0, 1900572, 1, 0, 1900573, 1, 0, 1900574, 1, 0, 1900575, 1, 0, 1900576, 1, 0, 1900577, 1, 0, 1900578, 1, 0, 1900579, 1, 0, 1900580, 1, 0, 1900581, 1, 0, 1900582, 1, 0, 1900583, 1, 0, 1900584, 1, 0, 1900585, 1, 0, 1900586, 1, 0, 1900587, 1, 0, 1900588, 1, 0, 1900589, 1, 0, 1900590, 1, 0, 1900591, 1, 0, 1900592, 1, 0, 1900593, 1, 0, 1900594, 1, 0, 1900595, 1, 0, 1900596, 1, 0, 1900597, 1, 0, 1900598, 1, 0, 1900599, 1, 0, 1900600, 1, 0, 1900601, 1, 0, 1900602, 1, 0, 1900603, 1, 0, 1900604, 1, 0, 1900605, 1, 0, 1900606, 1, 0, 1900607, 1, 0, 1900608, 1, 0, 1900609, 1, 0, 1900610, 1, 0, 1900611, 1, 0, 1900612, 1, 0, 1900613, 1, 0, 1900614, 1, 0, 1900615, 1, 0, 1900616, 1, 0, 1900617, 1, 0, 1900618, 1, 0, 1900619, 1, 0, 1900620, 1, 0, 1900621, 1, 0, 1900622, 1, 0, 1900623, 1, 0, 1900624, 1, 0, 1900625, 1, 0, 1900626, 1, 0, 1900627, 1, 0, 1900628, 1, 0, 1900629, 1, 0, 1900630, 1, 0, 1900631, 1, 0, 1900632, 1, 0, 1900633, 1, 0, 1900634, 1, 0, 1966093, 1, 0, 1966094, 1, 0, 1966095, 1, 0, 1966096, 1, 0, 1966097, 1, 0, 1966098, 1, 0, 1966099, 1, 0, 1966100, 1, 0, 1966101, 1, 0, 1966102, 1, 0, 1966103, 1, 0, 1966104, 1, 0, 1966105, 1, 0, 1966106, 1, 0, 1966107, 1, 0, 1966108, 1, 0, 1966109, 1, 0, 1966110, 1, 0, 1966111, 1, 0, 1966112, 1, 0, 1966113, 1, 0, 1966114, 1, 0, 1966115, 1, 0, 1966116, 1, 0, 1966117, 1, 0, 1966118, 1, 0, 1966119, 1, 0, 1966120, 1, 0, 1966121, 1, 0, 1966122, 1, 0, 1966123, 1, 0, 1966124, 1, 0, 1966125, 1, 0, 1966126, 1, 0, 1966127, 1, 0, 1966128, 1, 0, 1966129, 1, 0, 1966130, 1, 0, 1966131, 1, 0, 1966132, 1, 0, 1966133, 1, 0, 1966134, 1, 0, 1966135, 1, 0, 1966136, 1, 0, 1966137, 1, 0, 1966138, 1, 0, 1966139, 1, 0, 1966140, 1, 0, 1966141, 1, 0, 1966142, 1, 0, 1966143, 1, 0, 1966144, 1, 0, 1966145, 1, 0, 1966146, 1, 0, 1966147, 1, 0, 1966148, 1, 0, 1966149, 1, 0, 1966150, 1, 0, 1966151, 1, 0, 1966152, 1, 0, 1966153, 1, 0, 1966154, 1, 0, 1966155, 1, 0, 1966156, 1, 0, 1966157, 1, 0, 1966158, 1, 0, 1966159, 1, 0, 1966160, 1, 0, 1966161, 1, 0, 1966162, 1, 0, 1966163, 1, 0, 1966164, 1, 0, 1966165, 1, 0, 1966166, 1, 0, 1966167, 1, 0, 1966168, 1, 0, 1966169, 1, 0, 1966170, 1, 0, 2031629, 1, 0, 2031630, 1, 0, 2031631, 1, 0, 2031632, 1, 0, 2031633, 1, 0, 2031634, 1, 0, 2031635, 1, 0, 2031636, 1, 0, 2031637, 1, 0, 2031638, 1, 0, 2031639, 1, 0, 2031640, 1, 0, 2031641, 1, 0, 2031642, 1, 0, 2031643, 1, 0, 2031644, 1, 0, 2031645, 1, 0, 2031646, 1, 0, 2031647, 1, 0, 2031648, 1, 0, 2031649, 1, 0, 2031650, 1, 0, 2031651, 1, 0, 2031652, 1, 0, 2031653, 1, 0, 2031654, 1, 0, 2031655, 1, 0, 2031656, 1, 0, 2031657, 1, 0, 2031658, 1, 0, 2031659, 1, 0, 2031660, 1, 0, 2031661, 1, 0, 2031662, 1, 0, 2031663, 1, 0, 2031664, 1, 0, 2031665, 1, 0, 2031666, 1, 0, 2031667, 1, 0, 2031668, 1, 0, 2031669, 1, 0, 2031670, 1, 0, 2031671, 1, 0, 2031672, 1, 0, 2031673, 1, 0, 2031674, 1, 0, 2031675, 1, 0, 2031676, 1, 0, 2031677, 1, 0, 2031678, 1, 0, 2031679, 1, 0, 2031680, 1, 0, 2031681, 1, 0, 2031682, 1, 0, 2031683, 1, 0, 2031684, 1, 0, 2031685, 1, 0, 2031686, 1, 0, 2031687, 1, 0, 2031688, 1, 0, 2031689, 1, 0, 2031690, 1, 0, 2031691, 1, 0, 2031692, 1, 0, 2031693, 1, 0, 2031694, 1, 0, 2031695, 1, 0, 2031696, 1, 0, 2031697, 1, 0, 2031698, 1, 0, 2031699, 1, 0, 2031700, 1, 0, 2031701, 1, 0, 2031702, 1, 0, 2031703, 1, 0, 2031704, 1, 0, 2031705, 1, 0, 2031706, 1, 0, 2097165, 1, 0, 2097166, 1, 0, 2097167, 1, 0, 2097168, 1, 0, 2097169, 1, 0, 2097170, 1, 0, 2097171, 1, 0, 2097172, 1, 0, 2097173, 1, 0, 2097174, 1, 0, 2097175, 1, 0, 2097176, 1, 0, 2097177, 1, 0, 2097178, 1, 0, 2097179, 1, 0, 2097180, 1, 0, 2097181, 1, 0, 2097182, 1, 0, 2097183, 1, 0, 2097184, 1, 0, 2097185, 1, 0, 2097186, 1, 0, 2097187, 1, 0, 2097188, 1, 0, 2097189, 1, 0, 2097190, 1, 0, 2097191, 1, 0, 2097192, 1, 0, 2097193, 1, 0, 2097194, 1, 0, 2097195, 1, 0, 2097196, 1, 0, 2097197, 1, 0, 2097198, 1, 0, 2097199, 1, 0, 2097200, 1, 0, 2097201, 1, 0, 2097202, 1, 0, 2097203, 1, 0, 2097204, 1, 0, 2097205, 1, 0, 2097206, 1, 0, 2097207, 1, 0, 2097208, 1, 0, 2097209, 1, 0, 2097210, 1, 0, 2097211, 1, 0, 2097212, 1, 0, 2097213, 1, 0, 2097214, 1, 0, 2097215, 1, 0, 2097216, 1, 0, 2097217, 1, 0, 2097218, 1, 0, 2097219, 1, 0, 2097220, 1, 0, 2097221, 1, 0, 2097222, 1, 0, 2097223, 1, 0, 2097224, 1, 0, 2097225, 1, 0, 2097226, 1, 0, 2097227, 1, 0, 2097228, 1, 0, 2097229, 1, 0, 2097230, 1, 0, 2097231, 1, 0, 2097232, 1, 0, 2097233, 1, 0, 2097234, 1, 0, 2097235, 1, 0, 2097236, 1, 0, 2097237, 1, 0, 2097238, 1, 0, 2097239, 1, 0, 2097240, 1, 0, 2097241, 1, 0, 2097242, 1, 0, 2162701, 1, 0, 2162702, 1, 0, 2162703, 1, 0, 2162704, 1, 0, 2162705, 1, 0, 2162706, 1, 0, 2162707, 1, 0, 2162708, 1, 0, 2162709, 1, 0, 2162710, 1, 0, 2162711, 1, 0, 2162712, 1, 0, 2162713, 1, 0, 2162714, 1, 0, 2162715, 1, 0, 2162716, 1, 0, 2162717, 1, 0, 2162718, 1, 0, 2162719, 1, 0, 2162720, 1, 0, 2162721, 1, 0, 2162722, 1, 0, 2162723, 1, 0, 2162724, 1, 0, 2162725, 1, 0, 2162726, 1, 0, 2162727, 1, 0, 2162728, 1, 0, 2162729, 1, 0, 2162730, 1, 0, 2162731, 1, 0, 2162732, 1, 0, 2162733, 1, 0, 2162734, 1, 0, 2162735, 1, 0, 2162736, 1, 0, 2162737, 1, 0, 2162738, 1, 0, 2162739, 1, 0, 2162740, 1, 0, 2162741, 1, 0, 2162742, 1, 0, 2162743, 1, 0, 2162744, 1, 0, 2162745, 1, 0, 2162746, 1, 0, 2162747, 1, 0, 2162748, 1, 0, 2162749, 1, 0, 2162750, 1, 0, 2162751, 1, 0, 2162752, 1, 0, 2162753, 1, 0, 2162754, 1, 0, 2162755, 1, 0, 2162756, 1, 0, 2162757, 1, 0, 2162758, 1, 0, 2162759, 1, 0, 2162760, 1, 0, 2162761, 1, 0, 2162762, 1, 0, 2162763, 1, 0, 2162764, 1, 0, 2162765, 1, 0, 2162766, 1, 0, 2162767, 1, 0, 2162768, 1, 0, 2162769, 1, 0, 2162770, 1, 0, 2162771, 1, 0, 2162772, 1, 0, 2162773, 1, 0, 2162774, 1, 0, 2162775, 1, 0, 2162776, 1, 0, 2162777, 1, 0, 2162778, 1, 0 )
 
 [node name="SurfaceAnimation" type="AnimationPlayer" parent="Water"]
-anims/water = SubResource( 57 )
+anims/water = SubResource( 56 )
 
 [node name="Objects" type="Node2D" parent="."]
 
@@ -1362,16 +1362,14 @@ scale = Vector2( 0.5, 0.5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 980.074, 473.801 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
 speed_scale = 0.5
 playing = true
 
 [node name="AnimatedSprite5" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 1033.44, 476.441 )
 scale = Vector2( 0.87, 0.87 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
 speed_scale = 0.5
 playing = true
 flip_h = true
@@ -1379,15 +1377,15 @@ flip_h = true
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 1015.68, 478.91 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
+frame = 2
 speed_scale = 0.35
 playing = true
 
 [node name="AnimatedSprite3" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 1007.65, 484.956 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
 frame = 3
 speed_scale = 0.56
 playing = true
@@ -1396,23 +1394,22 @@ flip_h = true
 [node name="AnimatedSprite4" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 1024.68, 480.91 )
 scale = Vector2( 0.66, 0.66 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 2
 speed_scale = 0.44
 playing = true
 flip_h = true
 
 [node name="AnimatedSprite6" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 1045.68, 472.91 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
 speed_scale = 0.5
 playing = true
 
 [node name="AnimatedSprite7" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 1078.44, 476.441 )
 scale = Vector2( 0.87, 0.87 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
 speed_scale = 0.5
 playing = true
 flip_h = true
@@ -1420,7 +1417,8 @@ flip_h = true
 [node name="AnimatedSprite8" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 1060.68, 478.91 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 1
 speed_scale = 0.35
 playing = true
 flip_h = true
@@ -1428,7 +1426,7 @@ flip_h = true
 [node name="AnimatedSprite9" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 1052.65, 484.956 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
 frame = 3
 speed_scale = 0.56
 playing = true
@@ -1437,15 +1435,16 @@ flip_h = true
 [node name="AnimatedSprite10" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 1069.68, 480.91 )
 scale = Vector2( 0.66, 0.66 )
-frames = SubResource( 58 )
-frame = 3
+frames = SubResource( 57 )
+frame = 1
 speed_scale = 0.44
 playing = true
 
 [node name="AnimatedSprite12" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 942.509, 476.772 )
 scale = Vector2( 0.87, 0.87 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 3
 speed_scale = 0.5
 playing = true
 flip_h = true
@@ -1453,14 +1452,15 @@ flip_h = true
 [node name="AnimatedSprite13" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 924.744, 479.241 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 1
 speed_scale = 0.35
 playing = true
 
 [node name="AnimatedSprite14" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 916.721, 485.287 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
 frame = 2
 speed_scale = 0.56
 playing = true
@@ -1469,22 +1469,24 @@ flip_h = true
 [node name="AnimatedSprite15" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 933.744, 481.241 )
 scale = Vector2( 0.66, 0.66 )
-frames = SubResource( 58 )
-frame = 3
+frames = SubResource( 57 )
+frame = 1
 speed_scale = 0.44
 playing = true
 flip_h = true
 
 [node name="AnimatedSprite16" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 954.744, 473.241 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 3
 speed_scale = 0.5
 playing = true
 
 [node name="AnimatedSprite17" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 987.509, 476.772 )
 scale = Vector2( 0.87, 0.87 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 3
 speed_scale = 0.5
 playing = true
 flip_h = true
@@ -1492,8 +1494,7 @@ flip_h = true
 [node name="AnimatedSprite18" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 969.744, 479.241 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 58 )
-frame = 3
+frames = SubResource( 57 )
 speed_scale = 0.35
 playing = true
 flip_h = true
@@ -1501,7 +1502,7 @@ flip_h = true
 [node name="AnimatedSprite19" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 961.721, 485.287 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
 frame = 2
 speed_scale = 0.56
 playing = true
@@ -1510,24 +1511,21 @@ flip_h = true
 [node name="AnimatedSprite20" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 1000.13, 481.575 )
 scale = Vector2( 0.66, 0.66 )
-frames = SubResource( 58 )
-frame = 2
+frames = SubResource( 57 )
 speed_scale = 0.44
 playing = true
 
 [node name="AnimatedSprite11" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 830.676, 476.91 )
 scale = Vector2( 0.85, 0.85 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
 speed_scale = 0.5
 playing = true
 
 [node name="AnimatedSprite21" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 863.441, 476.441 )
 scale = Vector2( 0.87, 0.87 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
 speed_scale = 0.5
 playing = true
 flip_h = true
@@ -1535,14 +1533,15 @@ flip_h = true
 [node name="AnimatedSprite22" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 845.676, 478.91 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 1
 speed_scale = 0.35
 playing = true
 
 [node name="AnimatedSprite23" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 837.653, 484.956 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
 frame = 2
 speed_scale = 0.56
 playing = true
@@ -1551,24 +1550,22 @@ flip_h = true
 [node name="AnimatedSprite24" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 854.676, 480.91 )
 scale = Vector2( 0.66, 0.66 )
-frames = SubResource( 58 )
-frame = 3
+frames = SubResource( 57 )
+frame = 1
 speed_scale = 0.44
 playing = true
 flip_h = true
 
 [node name="AnimatedSprite25" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 875.676, 472.91 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
 speed_scale = 0.5
 playing = true
 
 [node name="AnimatedSprite26" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 908.441, 476.441 )
 scale = Vector2( 0.87, 0.87 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
 speed_scale = 0.5
 playing = true
 flip_h = true
@@ -1576,8 +1573,7 @@ flip_h = true
 [node name="AnimatedSprite27" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 890.676, 478.91 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 58 )
-frame = 3
+frames = SubResource( 57 )
 speed_scale = 0.35
 playing = true
 flip_h = true
@@ -1585,7 +1581,7 @@ flip_h = true
 [node name="AnimatedSprite28" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 882.653, 484.956 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
 frame = 2
 speed_scale = 0.56
 playing = true
@@ -1594,15 +1590,15 @@ flip_h = true
 [node name="AnimatedSprite29" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 899.676, 480.91 )
 scale = Vector2( 0.66, 0.66 )
-frames = SubResource( 58 )
-frame = 2
+frames = SubResource( 57 )
 speed_scale = 0.44
 playing = true
 
 [node name="AnimatedSprite30" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 772.509, 476.772 )
 scale = Vector2( 0.87, 0.87 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 3
 speed_scale = 0.5
 playing = true
 flip_h = true
@@ -1610,14 +1606,15 @@ flip_h = true
 [node name="AnimatedSprite31" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 754.744, 479.241 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 1
 speed_scale = 0.35
 playing = true
 
 [node name="AnimatedSprite32" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 746.721, 485.287 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
 frame = 2
 speed_scale = 0.56
 playing = true
@@ -1626,8 +1623,7 @@ flip_h = true
 [node name="AnimatedSprite33" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 763.744, 481.241 )
 scale = Vector2( 0.66, 0.66 )
-frames = SubResource( 58 )
-frame = 2
+frames = SubResource( 57 )
 speed_scale = 0.44
 playing = true
 flip_h = true
@@ -1635,8 +1631,8 @@ flip_h = true
 [node name="AnimatedSprite44" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 689.738, 477.302 )
 scale = Vector2( 0.87, 0.87 )
-frames = SubResource( 58 )
-frame = 3
+frames = SubResource( 57 )
+frame = 2
 speed_scale = 0.5
 playing = true
 flip_h = true
@@ -1644,22 +1640,23 @@ flip_h = true
 [node name="AnimatedSprite45" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 680.974, 481.771 )
 scale = Vector2( 0.66, 0.66 )
-frames = SubResource( 58 )
-frame = 2
+frames = SubResource( 57 )
 speed_scale = 0.44
 playing = true
 flip_h = true
 
 [node name="AnimatedSprite34" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 784.744, 473.241 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 3
 speed_scale = 0.5
 playing = true
 
 [node name="AnimatedSprite35" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 817.509, 476.772 )
 scale = Vector2( 0.87, 0.87 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 3
 speed_scale = 0.5
 playing = true
 flip_h = true
@@ -1667,8 +1664,7 @@ flip_h = true
 [node name="AnimatedSprite36" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 799.744, 479.241 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 58 )
-frame = 3
+frames = SubResource( 57 )
 speed_scale = 0.35
 playing = true
 flip_h = true
@@ -1676,7 +1672,7 @@ flip_h = true
 [node name="AnimatedSprite37" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 791.721, 485.287 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
 frame = 2
 speed_scale = 0.56
 playing = true
@@ -1685,29 +1681,31 @@ flip_h = true
 [node name="AnimatedSprite38" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 808.744, 481.241 )
 scale = Vector2( 0.66, 0.66 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
+frame = 3
 speed_scale = 0.44
 playing = true
 
 [node name="AnimatedSprite39" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 724.676, 479.91 )
 scale = Vector2( 0.7, 0.7 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 3
 speed_scale = 0.5
 playing = true
 
 [node name="AnimatedSprite40" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 739.676, 478.91 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
+frame = 1
 speed_scale = 0.35
 playing = true
 
 [node name="AnimatedSprite41" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 731.653, 484.956 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 58 )
+frames = SubResource( 57 )
 frame = 1
 speed_scale = 0.56
 playing = true
@@ -1716,8 +1714,8 @@ flip_h = true
 [node name="AnimatedSprite42" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 711.509, 476.772 )
 scale = Vector2( 0.87, 0.87 )
-frames = SubResource( 58 )
-frame = 3
+frames = SubResource( 57 )
+frame = 2
 speed_scale = 0.5
 playing = true
 flip_h = true
@@ -1725,8 +1723,8 @@ flip_h = true
 [node name="AnimatedSprite43" type="AnimatedSprite" parent="Objects/Plants"]
 position = Vector2( 702.744, 481.241 )
 scale = Vector2( 0.66, 0.66 )
-frames = SubResource( 58 )
-frame = 1
+frames = SubResource( 57 )
+frame = 3
 speed_scale = 0.44
 playing = true
 
