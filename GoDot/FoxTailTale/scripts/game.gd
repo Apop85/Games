@@ -40,15 +40,15 @@ func _process(delta):
 #	Update fader position every frame
 	set_fader_position()
 	if GlobalVariable.level_now != GlobalVariable.next_level:
-		fader.visible = true
+#		fader.visible = true
 		GlobalVariable.level_now = GlobalVariable.next_level
 		
 #		Fade out and wait until animation finished
 		animation_player = fader.fade_out()
 		yield(animation_player, "animation_finished")
+		get_tree().reload_current_scene()
 		
 #		Reload scene with new level
-		get_tree().reload_current_scene()
 		
 	if Input.is_action_just_pressed("escape") and GlobalVariable.level_now != 0:
 		GlobalVariable.next_level = 0

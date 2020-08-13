@@ -8,14 +8,18 @@ func _ready():
 	pass
 
 func fade_in():
+	visible = true
 #	Play fade in animation
+	print(\"in\")
 	$AnimationPlayer.play(\"fadeIn\")
 	return $AnimationPlayer
 	
 	
 func fade_out():
+	visible = true
+	print(\"out\")
 #	Set game on pause
-	get_tree().paused == true
+#	get_tree().paused == true
 #	Play fade out animation
 	$AnimationPlayer.play(\"fadeOut\")
 	return $AnimationPlayer
@@ -23,6 +27,7 @@ func fade_out():
 
 [sub_resource type="Animation" id=2]
 resource_name = "fadeIn"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:color")
 tracks/0/interp = 1
@@ -30,7 +35,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
@@ -52,10 +57,12 @@ tracks/0/keys = {
 }
 
 [node name="Fader" type="ColorRect"]
+pause_mode = 2
 margin_right = 40.0
 margin_bottom = 40.0
 rect_scale = Vector2( 4.09676, 2.35627 )
-color = Color( 0, 0, 0, 1 )
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.2 )
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

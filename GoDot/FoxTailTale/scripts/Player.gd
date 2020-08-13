@@ -19,7 +19,7 @@ func _ready():
 
 	
 func _apply_gravity(delta):
-	if not _is_grounded():
+	if not _is_grounded(): 
 #		Apply gravity
 		velocity.y += GlobalVariable.GRAVITY *delta
 		

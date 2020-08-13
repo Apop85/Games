@@ -3,6 +3,7 @@ extends Node2D
 var collected = false
 var moved = false
 var played = false
+var cnt = 0
 
 onready var rest_position = position
 
@@ -13,18 +14,27 @@ func _ready():
 	pass
 
 
-func move_object():
-	var target_position = rest_position.y -15
-	if position.y >= target_position:
-		position.y -= 2.5
-		return false
-	elif position.y < target_position:
+func move_object(delta):
+	if cnt == 0 and "Coin" in self.name:
+		$HitBox/CollisionShape2D.disabled = true
+		$HitBox/AnimatedSprite.visible = false
+		$Particles2D.emitting = true
+	cnt += delta
+	if cnt >= 1:
 		return true
+	else:
+		return false
+#	var target_position = rest_position.y -15
+#	if position.y >= target_position:
+#		position.y -= 2.5
+#		return false
+#	elif position.y < target_position:
+#		return true
 
 func _physics_process(delta):
 #	If colected start collecting animation
 	if collected:
-		moved = move_object()
+		moved = move_object(delta)
 		if not played:
 			if "Coin" in self.name:
 				GlobalVariable.play_sound("res://sounds/coin.wav")

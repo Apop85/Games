@@ -19,8 +19,8 @@ const JUMP_OUT_WATER_SPEED = -160
 const WATER = 1 << 1
 
 var AudioPlayer = AudioStreamPlayer.new()
-var next_level = 2
-var level_now = 2
+var next_level = 0
+var level_now = 0
 var portal = null
 var ressource = null
 

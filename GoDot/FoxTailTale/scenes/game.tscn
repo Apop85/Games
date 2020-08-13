@@ -80,7 +80,6 @@ __meta__ = {
 position = Vector2( 0.382919, 6.96089 )
 scale = Vector2( 0.531822, 0.499513 )
 frames = SubResource( 1 )
-frame = 1
 playing = true
 
 [node name="Label" type="Label" parent="UI/UI/Panel"]
