@@ -11,9 +11,10 @@ var type
 var speed = 0
 var grid
 var is_moving = false
+var diagonal_moving = false
 
 
-const MAX_SPEED = 1200
+const MAX_SPEED = 200
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	grid = get_parent()
@@ -47,12 +48,12 @@ func _get_direction(delta_position):
 			return Vector2(-1, 1)
 	else:
 		return Vector2.ZERO
-	
+
 
 func _physics_process(delta):
 	speed = 0
-	current_position = grid.world_to_map(position)
 	if not is_moving and Input.is_mouse_button_pressed(BUTTON_LEFT):
+		current_position = grid.world_to_map(position)
 		target_cell = grid.world_to_map(get_viewport().get_mouse_position())
 		delta_position = target_cell - current_position # Get delta between current and target position based on grid
 		target_direction = _get_direction(delta_position) # Returns the direction vector 
@@ -65,40 +66,14 @@ func _physics_process(delta):
 	
 	elif is_moving:
 		speed = MAX_SPEED
-		motion = speed * target_direction * delta
+		motion = speed * (target_direction).normalized()
 		var abs_motion = motion * target_direction # Get absolute motion 
 		var distance = (target_position-position) * target_direction # Get absolute distance
-
 		# Check if the player hits the target position on the next frame
-		if abs_motion.x > distance.x + grid.tile_offset.x or abs_motion.y > distance.y + grid.tile_offset.y:
+		if abs_motion.x*delta >= distance.x and abs_motion.y*delta >= distance.y:
 			position = target_position
 			is_moving = false
 		else:
 			move_and_slide(motion)
-#	direction = Vector2()
-#	speed = 0
-#	direction.x = -int(Input.is_action_pressed("left")) + int(Input.is_action_pressed("right"))
-#	direction.y = -int(Input.is_action_pressed("up")) + int(Input.is_action_pressed("down"))
-#
-#
-#
-#	if not is_moving and direction != Vector2():
-#		target_direction = direction
-#		if grid._is_cell_vacant(self.position, target_direction):
-#			target_position = grid.update_child_pos(position, direction, type)
-#			is_moving = true
-#	elif is_moving:
-#		speed = MAX_SPEED
-#
-#		motion = speed * target_direction * delta
-#
-#		var distance = target_position-position
-#		var move_distance = motion.length()
-#
-#		if motion.x > distance.x + grid.tile_offset.x or motion.y > distance.y + grid.tile_offset.y:
-#			position = target_position
-#			is_moving = false
-#		else:
-#			move_and_slide(motion)
 
 	
