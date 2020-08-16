@@ -2,10 +2,12 @@ extends TileMap
 
 # Grid properties
 var tile_size = get_cell_size()
+var tile_size_normal = tile_size
 var half_tile_size = tile_size / 2
 var tile_offset = Vector2(tile_size.x / 2, tile_size.y / 2)
 var grid_size = Vector2(11, 11)
 var grid = []
+var scaling = 1
 
 # Figure properties
 var move_directions = [Vector2(1,0), Vector2(0,1), Vector2(-1,0), Vector2(0,-1)]
@@ -31,6 +33,8 @@ var king_start_pos = Vector2(5,5)
 
 var forbidden_cells
 
+var game_over = false
+
 # Aviable entities
 enum ENTITY_TYPES {WHITE, BLACK, KING, READY, THRONE ,GOAL}
 
@@ -41,13 +45,47 @@ onready var highlight = preload("res://Scenes/Highlight.tscn")
 onready var goal = preload("res://Scenes/Goal.tscn")
 onready var throne = preload("res://Scenes/Throne.tscn")
 
-onready var player_text = $Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 #	Create grid array
-	forbidden_cells = goal_pos
+	forbidden_cells = [] + goal_pos
 	forbidden_cells.append(throne_pos)
+	
+
+func resize_board():
+	var current_window_size = OS.get_window_size()
+	var scale_to_size = current_window_size
+	if current_window_size.x > GlobalVariables.MAX_SIZE.x:
+		scale_to_size.x = GlobalVariables.MAX_SIZE.x
+	if current_window_size.y > GlobalVariables.MAX_SIZE.y:
+		scale_to_size.y = GlobalVariables.MAX_SIZE.y
+	
+	scaling = 1 / GlobalVariables.game_size.x * scale_to_size.x
+	
+	var cell_dim = scale_to_size.x / grid_size.x
+	self.cell_size = Vector2(cell_dim, cell_dim)
+	
+	var board_scale = Vector2(1 / tile_size_normal.x * cell_size.x, 1 / GlobalVariables.game_size.y * current_window_size.y)
+	$GameScreen.rect_size.x = scale_to_size.x
+#	$GameScreen/board.rect_size = Vector2(board_scale * grid_size.x, board_scale * grid_size.x)
+#	$GameScreen/board.rect_size = scale_to_size
+	$GameScreen/VerticalAlign/board.rect_scale = Vector2(board_scale.x, board_scale.x)
+	$GameScreen/VerticalAlign/board/board.scale = Vector2(board_scale.x, board_scale.x)
+#	print(cell_size, $GameScreen.rect_scale, $GameScreen/VerticalAlign/board/board.scale)
+#	print(cell_size, $GameScreen.rect_size, 319*board_scale)
+	
+	
+	tile_size = get_cell_size()
+	half_tile_size = tile_size / 2
+	tile_offset = Vector2(tile_size.x / 2, tile_size.y / 2)
+
+	
+func _setup_new_game():
+	resize_board()
+	_clear_grid()
+	
+	grid = []
 	
 	for x in range(grid_size.x):
 		grid.append([])
@@ -73,20 +111,49 @@ func _ready():
 	
 	_add_entity(king_player, king_start_pos, ENTITY_TYPES.KING)
 	
+	GlobalVariables.winner = null
+	
+func _clear_grid():
+	var childs = self.get_children()
+	for child in childs:
+		if not child.name in ["GameScreen"]:
+			remove_child(child)
+			child.queue_free()
 
+func get_initial_rotation(child, pos):
+#	Top side
+	if pos.y < 2 and pos.x > 1 and pos.x < grid_size.x - 2:
+		child.rotation_degrees = 0
+	
+#	Right side
+	elif pos.y >= 2 and pos.y <= grid_size.y - 2 and pos.x >= grid_size.x - 2:
+		child.rotation_degrees = 90
+		
+#	Bottom side
+	elif pos.y >= grid_size.y - 2 and pos.x > 1 and pos.x < grid_size.x - 2:
+		child.rotation_degrees = 180
+		
+#	Left side
+	elif pos.y >= 2 and pos.x < 2:
+		child.rotation_degrees = 270
 
 func _add_entity(object, target_position, entity):
 #	Load entity
 	var new_figure = object.instance()
 #	var new_figure = object.instance(1)
-#	Add entity to array if is not prop
-	if entity in [ENTITY_TYPES.BLACK, ENTITY_TYPES.WHITE ,ENTITY_TYPES.KING]:
-		figures[str(target_position)] = new_figure
 #	Set position of object
-	new_figure.position = map_to_world(target_position) + half_tile_size
 #	Add entity to array
 	grid[target_position.x][target_position.y] = entity
 	add_child(new_figure)
+	new_figure.position = map_to_world(target_position) + half_tile_size
+#	print(target_position, " == ", map_to_world(target_position) + half_tile_size, " ||| ", new_figure.position)
+	new_figure.scale.x = scaling
+	new_figure.scale.y = scaling
+#	Add entity to array if is not prop
+	if entity in [ENTITY_TYPES.BLACK, ENTITY_TYPES.WHITE ,ENTITY_TYPES.KING]:
+		figures[str(target_position)] = new_figure
+		new_figure.get_node("AnimationPlayer").play("idle")
+		get_initial_rotation(new_figure, target_position)
 	
 		
 func update_child_pos(child, pos_target):
@@ -122,23 +189,22 @@ func _highlight_paths(child):
 		var check_position = map_coordinates + direction
 #		Add highlights to any aviable cell
 		while true:
-			if check_position.x >= 0 and check_position.y >= 0:
-				if check_position.x < grid_size.x and check_position.y < grid_size.y:
-					var type = grid[check_position.x][check_position.y]
+			if _is_inside_grid(check_position):
+				var type = grid[check_position.x][check_position.y]
 #					Load new figure to instance
-					var new_figure = highlight.instance()
-					if type == null or (king and (type in [ENTITY_TYPES.GOAL, ENTITY_TYPES.THRONE])):
+				var new_figure = highlight.instance()
+				if type == null or (king and (type in [ENTITY_TYPES.GOAL, ENTITY_TYPES.THRONE])):
 #						Set figure position
-						new_figure.position = map_to_world(check_position) + half_tile_size
+					new_figure.position = map_to_world(check_position) + half_tile_size
 #						Update grid array
-						grid[check_position.x][check_position.y] = ENTITY_TYPES.READY
+					grid[check_position.x][check_position.y] = ENTITY_TYPES.READY
 #						Add child to array
-						highlight_child.append(new_figure)
-						check_position += direction
-						add_child(new_figure)
-					else: 
-						break
-				else:
+					highlight_child.append(new_figure)
+					check_position += direction
+					add_child(new_figure)
+					new_figure.scale.x = scaling
+					new_figure.scale.y = scaling
+				else: 
 					break
 			else:
 				break
@@ -163,13 +229,12 @@ func _can_jail(figure_position):
 	
 	var direction_index = {}
 	var possible_jails = [
-		[type, enemy_type, enemy_type, type],
-		[type, enemy_type, type],
-		[type, enemy_type, type, enemy_type], 
-		[type, enemy_type, ENTITY_TYPES.THRONE],
-		[type, enemy_type, ENTITY_TYPES.GOAL],
-		[type, enemy_type, ENTITY_TYPES.KING],
-		[ENTITY_TYPES.WHITE, enemy_type, enemy_type, ENTITY_TYPES.KING]
+		str(type) + str(enemy_type) + str(type),
+		str(type) + str(enemy_type) + str(enemy_type) + str(type),
+		str(type) + str(enemy_type) + str(ENTITY_TYPES.GOAL),
+		str(type) + str(enemy_type) + str(ENTITY_TYPES.THRONE),
+		str(ENTITY_TYPES.WHITE) + str(ENTITY_TYPES.BLACK) + str(ENTITY_TYPES.KING),
+		str(ENTITY_TYPES.WHITE) + str(ENTITY_TYPES.BLACK) + str(ENTITY_TYPES.BLACK) + str(ENTITY_TYPES.KING),
 	]
 	for direction in move_directions:
 		if not str(direction) in direction_index.keys():
@@ -180,16 +245,23 @@ func _can_jail(figure_position):
 		for i in range(1,4):
 			var check_position = figure_position + (i * direction)
 #			Check if position is within board boundries
-			if check_position.x < grid_size.x and check_position.y < grid_size.y and check_position.x >= 0 and check_position.y >= 0:
-#				Check content of cell
-				if not grid[check_position.x][check_position.y] in [ENTITY_TYPES.KING, ENTITY_TYPES.THRONE, ENTITY_TYPES.GOAL]:
-					direction_index[str(direction)].append(grid[check_position.x][check_position.y])
-				elif grid[check_position.x][check_position.y] in [ENTITY_TYPES.THRONE, ENTITY_TYPES.GOAL]:
-					direction_index[str(direction)].append(type)
+			if _is_inside_grid(check_position):
+				if type == ENTITY_TYPES.BLACK and grid[check_position.x][check_position.y] == ENTITY_TYPES.KING:
+					GlobalVariables.game_over = true
+					for vect in move_directions:
+						var check_cell = check_position+vect
+						if _is_inside_grid(check_cell):
+							if not grid[check_cell.x][check_cell.y] in [ENTITY_TYPES.BLACK, ENTITY_TYPES.THRONE, ENTITY_TYPES.GOAL]:
+								GlobalVariables.game_over = false
+								
+					direction_index[str(direction)].append(ENTITY_TYPES.KING)
 				else:
-					direction_index[str(direction)].append(ENTITY_TYPES.WHITE)
+					direction_index[str(direction)].append(grid[check_position.x][check_position.y])
 			else:
 				direction_index[str(direction)].append(null)
+			if GlobalVariables.game_over and GlobalVariables.winner == null:
+				GlobalVariables.winner = ENTITY_TYPES.BLACK
+#				$Label.text = "Player " + str(get_parent().players[GlobalVariables.winner] + "won!")
 		
 #		Remove Null entrys
 		direction_index[str(direction)] = _cut_array(direction_index[str(direction)])
@@ -198,22 +270,21 @@ func _can_jail(figure_position):
 	var entities_to_remove = []
 	for key in direction_index.keys():
 		var direction = direction_index[key][0]
-		var list = []
+		var list = ""
 #		Create new list without direction
 		for i in range(1, direction_index[key].size()):
+			list += str(direction_index[key][i])
 			if i > 2:
-				if direction_index[key][i] != type:
+				if direction_index[key][i] == type:
 					break
-			list.append(direction_index[key][i])
+
 		if list in possible_jails:
 			var counter = 0
 			for number in list:
 				if not number in [type, ENTITY_TYPES.GOAL, ENTITY_TYPES.THRONE]:
-					if counter > 0 and number != type:
+					if counter > 0 and int(number) != type:
 #						Save enemy position if can be jailed
 						entities_to_remove.append(figure_position + direction * counter)
-					else: 
-						break
 				counter += 1
 	
 	if entities_to_remove != []:
@@ -230,13 +301,19 @@ func _cut_array(array_item):
 		
 func _kill_figures(position_list):
 	for pos in position_list:
-#		Get node
-		var figure = figures[str(pos)]
-
-#		Remove figure from field
-		grid[pos.x][pos.y] = null
-		figures.erase(str(pos))
+		if grid[pos.x][pos.y] in [ ENTITY_TYPES.WHITE, ENTITY_TYPES.BLACK, ENTITY_TYPES.KING ]:
+	#		Get node
+			var figure = figures[str(pos)]
+	
+	#		Remove figure from field
+			grid[pos.x][pos.y] = null
+			figures.erase(str(pos))
+			
+			remove_child(figure)
+			figure.queue_free()
 		
-		remove_child(figure)
-		figure.queue_free()
+func _is_inside_grid(pos):
+	if pos.x < grid_size.x and pos. x >= 0 and pos.y < grid_size.x and pos.y >= 0:
+		return true
+	return false
 	
