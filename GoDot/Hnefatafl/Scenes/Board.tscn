@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
+[ext_resource path="res://Scripts/AILogic.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/GridLogic.gd" type="Script" id=2]
 [ext_resource path="res://Sprites/board.png" type="Texture" id=3]
 
@@ -12,7 +13,7 @@ script = ExtResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 320.0
-margin_bottom = 399.0
+margin_bottom = 319.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -20,7 +21,7 @@ __meta__ = {
 
 [node name="VerticalAlign" type="VBoxContainer" parent="GameScreen"]
 margin_right = 320.0
-margin_bottom = 399.0
+margin_bottom = 319.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -29,7 +30,7 @@ __meta__ = {
 
 [node name="board" type="TextureRect" parent="GameScreen/VerticalAlign"]
 margin_right = 320.0
-margin_bottom = 399.0
+margin_bottom = 319.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch_mode = 1
@@ -37,3 +38,6 @@ stretch_mode = 1
 [node name="board" type="Sprite" parent="GameScreen/VerticalAlign/board"]
 texture = ExtResource( 3 )
 centered = false
+
+[node name="AILogic" type="Node2D" parent="."]
+script = ExtResource( 1 )

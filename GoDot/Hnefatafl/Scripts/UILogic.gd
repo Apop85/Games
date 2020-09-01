@@ -8,6 +8,8 @@ onready var game_logic = self.get_parent()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GlobalVariables.viewport.connect("size_changed", self, "resize_ui")
+#	connect("ready_2_play", grid, "run_ai")
+	
 	resize_ui()
 
 
@@ -40,16 +42,23 @@ func resize_ui():
 		$GameInterface.rect_size.y = target_size.y
 
 func _on_NewGame_button_down():
+	grid.white_figures = []
+	grid.black_figures = []
 	grid._setup_new_game()
 	game_logic._new_game()
+	grid.ai._update_grid()
+#	yield(grid, "ready_2_play")
 	grid.visible = true
 	GlobalVariables.winner = null
 	GlobalVariables.game_over = false
 	$BackgroundLayers.visible = false
-	$GameInterface/Exit.visible = true
 	$GameInterface/InfoBox.visible = true
+	$GameInterface/Exit.visible = true
+	GlobalVariables.play_game = true
 #	$MainMenu/Buttons/Continue.visible = true
 
+func run_ai():
+	grid.ai._check_options(get_parent().player_turn)
 
 func _on_Exit_button_down():
 	$MainMenu.visible = true
@@ -58,6 +67,7 @@ func _on_Exit_button_down():
 	$BackgroundLayers.visible = true
 	$GameInterface/InfoBox.visible = false
 	GlobalVariables.winner = 99
+	GlobalVariables.play_game = false
 
 
 func _on_Continue_button_down():
@@ -67,6 +77,7 @@ func _on_Continue_button_down():
 	$GameInterface/Exit.visible = true
 	$GameInterface/InfoBox.visible = true
 	GlobalVariables.winner = null
+	GlobalVariables.play_game = true
 
 
 func _on_Mute_button_down():

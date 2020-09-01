@@ -1,5 +1,13 @@
 extends Node2D
 
+
+# TODO: Enemy KI, Update sprite quality, Center board to screen, online mp?, 
+# background music, extended chess mate pattern, win/loose screen, 
+# ui overhaul (show figure for turn), options (sound)
+# new game screen (board size, first player, choose color, choose who's ki)
+# Redo background to match viking art style
+
+
 # Vectors
 var direction = Vector2()
 var target_position = Vector2()
@@ -11,6 +19,9 @@ var selected_figure = null
 # Boolean variables
 var is_moving = false
 var highlighted = false
+
+var debug_check = false
+
 # Counter
 var waiting = 0
 # Special variables
@@ -23,6 +34,8 @@ onready var turn_label = $UI/GameInterface/InfoBox/Turn
 onready var main_interface = $UI/MainMenu
 onready var game_interface = $UI/GameInterface
 onready var background_music = $MainAudio
+onready var enemy_ai = $Board/AILogic
+onready var debug_text = $UI/GameInterface/InfoBox/DEBUG
 
 var players = ["White", "Black"]
 var player_turn = 0
@@ -31,6 +44,7 @@ var turn = 1
 
 
 func _ready():
+	debug_text.text = ""
 	pass
 
 
@@ -38,11 +52,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	var mouse_position = Vector2()
-	if GlobalVariables.winner == null:
+	if GlobalVariables.winner == null and grid.visible: # and not player_turn in GlobalVariables.ai_player
 		if not is_moving:
 	#		Iterate waiting counter up to 0.5
-			if highlighted and waiting < 0.5:
+			if highlighted and waiting < 0.25:
 				waiting += delta
+			if not debug_check and player_turn == 1:
+				debug_check = true
+				enemy_ai._check_options(player_turn)
 			if Input.is_mouse_button_pressed(BUTTON_LEFT) and not highlighted:
 	#			Get Mouse position
 				mouse_position_glob = get_viewport().get_mouse_position() - delta_vector
@@ -58,13 +75,12 @@ func _physics_process(delta):
 						selected_figure = grid.figures[str(mouse_position)]
 		#				Save active figure
 						active_figure = mouse_position
-#						print(mouse_position, "  ", mouse_position_glob, "   ", selected_figure.position)
 		#				Enable path highlighting
 						grid._highlight_paths(selected_figure)
 						highlighted = true
 	
 	#		If mouse is pressed, highlights is on and waited is done 
-			elif Input.is_mouse_button_pressed(BUTTON_LEFT) and highlighted and waiting > 0.5:
+			elif Input.is_mouse_button_pressed(BUTTON_LEFT) and highlighted and waiting > 0.25:
 				waiting = 0
 	#			Get mouse position
 				mouse_position_glob = get_viewport().get_mouse_position() - delta_vector
@@ -77,15 +93,15 @@ func _physics_process(delta):
 						target_position = mouse_position
 						target_position_glob = grid.map_to_world(mouse_position)
 		#				Get direction vector
-						direction = _get_direction(mouse_position - grid.world_to_map(selected_figure.position))
+						direction = get_direction(mouse_position - grid.world_to_map(selected_figure.position))
 					
 	#			Remove highlighting
 				grid._remove_highlights()
 	#			Check if direction is not zero
 				if direction != Vector2():
 	#				Update arrays
-					grid.update_child_pos(selected_figure, target_position)
-					_rotate_figure(direction, selected_figure)
+					grid._update_child_pos(selected_figure, target_position)
+					rotate_figure(direction, selected_figure)
 					is_moving = true
 					selected_figure.get_node("AnimationPlayer").play("walk")
 					if GlobalVariables.play_music:
@@ -119,12 +135,16 @@ func _physics_process(delta):
 				if not GlobalVariables.game_over:
 					text_label.text = players[player_turn]
 					turn_label.text = "Round: " + str(turn)
+					debug_check = false
 				else: 
+					GlobalVariables.play_game = false
 					text_label.text = str(players[GlobalVariables.winner] + " won!")
 					main_interface.get_node("Buttons").get_node("Continue").visible = false
 			else:
 	#			Move figure
 				selected_figure.position += velocity
+#	else:
+#		grid.ai.validate_options(player_turn)
 
 func _new_game():
 	#	Select random player to begin
@@ -143,7 +163,7 @@ func _new_game():
 
 	GlobalVariables.winner = null
 
-func _get_direction(delta_position):
+func get_direction(delta_position):
 	var x_movement = delta_position.x
 	var y_movement = delta_position.y
 	
@@ -161,7 +181,7 @@ func _get_direction(delta_position):
 	else:
 		return Vector2.ZERO
 
-func _rotate_figure(dir, child):
+func rotate_figure(dir, child):
 	if dir == Vector2(0, 1):
 		child.rotation_degrees = 0
 

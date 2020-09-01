@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Sprites/menu.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/GUI/Fonts/PfefferMediaeval.tres" type="DynamicFont" id=2]
@@ -10,17 +10,18 @@
 [ext_resource path="res://PfefferMediaeval.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://Sprites/infoboard.png" type="Texture" id=9]
 [ext_resource path="res://BLKCHCRY.TTF" type="DynamicFontData" id=10]
+[ext_resource path="res://Sprites/helpbutton-sm.png" type="Texture" id=11]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 60
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 8 )
 
-[sub_resource type="Theme" id=3]
-default_font = SubResource( 2 )
+[sub_resource type="Theme" id=2]
+default_font = SubResource( 1 )
 
-[sub_resource type="Theme" id=1]
+[sub_resource type="Theme" id=3]
 default_font = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=4]
@@ -30,6 +31,19 @@ font_data = ExtResource( 10 )
 
 [sub_resource type="Theme" id=5]
 default_font = SubResource( 4 )
+
+[sub_resource type="Gradient" id=6]
+colors = PoolColorArray( 0.239216, 0.188235, 0.188235, 1, 0.207843, 0.156863, 0.156863, 1 )
+
+[sub_resource type="GradientTexture" id=7]
+gradient = SubResource( 6 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 35
+font_data = ExtResource( 8 )
+
+[sub_resource type="Theme" id=9]
+default_font = SubResource( 8 )
 
 [node name="UI" type="Control"]
 margin_right = 320.0
@@ -66,7 +80,7 @@ __meta__ = {
 margin_right = 290.0
 margin_bottom = 200.0
 size_flags_vertical = 3
-theme = SubResource( 3 )
+theme = SubResource( 2 )
 text = "Hnefatafl"
 align = 1
 valign = 1
@@ -97,7 +111,7 @@ anchor_bottom = 1.0
 rect_min_size = Vector2( 120, 40 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
-theme = SubResource( 1 )
+theme = SubResource( 3 )
 text = "Continue"
 align = 1
 valign = 1
@@ -106,9 +120,9 @@ __meta__ = {
 }
 
 [node name="NewGame" type="TextureButton" parent="MainMenu/Buttons"]
-margin_top = 38.0
+margin_top = 6.0
 margin_right = 180.0
-margin_bottom = 98.0
+margin_bottom = 66.0
 rect_min_size = Vector2( 120, 40 )
 texture_normal = ExtResource( 5 )
 __meta__ = {
@@ -121,7 +135,7 @@ anchor_bottom = 1.0
 rect_min_size = Vector2( 120, 40 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
-theme = SubResource( 1 )
+theme = SubResource( 3 )
 text = "New Game"
 align = 1
 valign = 1
@@ -131,9 +145,9 @@ __meta__ = {
 }
 
 [node name="Options" type="TextureButton" parent="MainMenu/Buttons"]
-margin_top = 102.0
+margin_top = 70.0
 margin_right = 180.0
-margin_bottom = 162.0
+margin_bottom = 130.0
 rect_min_size = Vector2( 120, 40 )
 texture_normal = ExtResource( 5 )
 
@@ -143,8 +157,29 @@ anchor_bottom = 1.0
 rect_min_size = Vector2( 120, 40 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
-theme = SubResource( 1 )
+theme = SubResource( 3 )
 text = "Options"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Help" type="TextureButton" parent="MainMenu/Buttons"]
+margin_top = 134.0
+margin_right = 180.0
+margin_bottom = 194.0
+rect_min_size = Vector2( 120, 40 )
+texture_normal = ExtResource( 5 )
+
+[node name="Label2" type="Label" parent="MainMenu/Buttons/Help"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 120, 40 )
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = SubResource( 3 )
+text = "Help"
 align = 1
 valign = 1
 __meta__ = {
@@ -172,8 +207,7 @@ __meta__ = {
 }
 
 [node name="InfoBox" type="TextureRect" parent="GameInterface"]
-visible = false
-margin_right = 232.0
+margin_right = 276.0
 margin_bottom = 75.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -205,6 +239,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DEBUG" type="Label" parent="GameInterface/InfoBox"]
+margin_left = 150.255
+margin_top = 39.3536
+margin_right = 257.255
+margin_bottom = 73.3536
+theme = SubResource( 5 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "PLAYER"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Mute" type="TextureButton" parent="GameInterface"]
 margin_left = 280.0
 margin_right = 320.0
@@ -225,7 +273,110 @@ texture_normal = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Help" type="TextureButton" parent="GameInterface"]
+visible = false
+margin_left = 280.0
+margin_right = 320.0
+margin_bottom = 40.0
+size_flags_vertical = 0
+texture_normal = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Help" type="ScrollContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Help"]
+margin_right = 280.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="Help/VBoxContainer"]
+margin_right = 280.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="Sprite" parent="Help/VBoxContainer/Control"]
+scale = Vector2( 1, 1200 )
+texture = SubResource( 7 )
+region_rect = Rect2( 0, 0, 280, 600 )
+
+[node name="Control2" type="Control" parent="Help/VBoxContainer"]
+margin_top = 4.0
+margin_right = 280.0
+margin_bottom = 4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Help/VBoxContainer/Control2"]
+anchor_right = 1.0
+margin_right = -7.0
+margin_bottom = 50.0
+theme = SubResource( 9 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "How to play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control3" type="Control" parent="Help/VBoxContainer"]
+margin_top = 8.0
+margin_right = 280.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Help/VBoxContainer/Control3"]
+anchor_right = 1.0
+margin_bottom = 779.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cupiditate quo ad, eos quas expedita dolorem distinctio aspernatur modi dolores qui earum atque sint possimus est, sed itaque quisquam. Facilis, alias!Lorem Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod nulla accusamus, recusandae harum excepturi earum dolore autem! Minima iure dolore dicta perferendis veniam illo repellendus cupiditate eligendi recusandae voluptatem? Sit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, facere fugiat. Temporibus aut beatae molestias labore eos voluptas quia dolore quos. Minus corporis officiis nihil asperiores eaque nam explicabo? Sequi. Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum iste saepe eos officia enim odio explicabo nesciunt quaerat error voluptatibus. Sequi architecto quae voluptate nihil aperiam quis pariatur delectus repellat! Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore quae odio omnis libero, impedit deleniti, veritatis quos, quo minus adipisci consequatur iusto dicta? Asperiores facere obcaecati enim voluptatem adipisci aliquid. Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nulla eligendi ullam consequatur error sequi eos aspernatur temporibus numquam sit tempora veritatis, laborum quibusdam blanditiis odio, nihil, dicta praesentium ut. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eius fuga quas ab quos. Ipsam libero autem aliquam, quasi eius deleniti rem totam quaerat aliquid saepe possimus sint nisi tempora! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione id, magni quasi minus blanditiis dignissimos quod consequuntur placeat? Facilis voluptatum dignissimos odit eius laudantium accusantium voluptas itaque sit recusandae!"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control4" type="Control" parent="Help/VBoxContainer"]
+visible = false
+margin_right = 280.0
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Help/VBoxContainer/Control4"]
+anchor_right = 1.0
+margin_right = 141.0
+margin_bottom = 50.0
+theme = SubResource( 9 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "How to play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="button_down" from="MainMenu/Buttons/Continue" to="." method="_on_Continue_button_down"]
 [connection signal="button_down" from="MainMenu/Buttons/NewGame" to="." method="_on_NewGame_button_down"]
 [connection signal="button_down" from="GameInterface/Mute" to="." method="_on_Mute_button_down"]
 [connection signal="button_down" from="GameInterface/Exit" to="." method="_on_Exit_button_down"]
+[connection signal="button_down" from="GameInterface/Help" to="." method="_on_Exit_button_down"]

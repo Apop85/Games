@@ -10,6 +10,9 @@ const MAX_SIZE = Vector2(500, 680)
 var winner = 99
 var game_over = false
 var play_music = false
+var play_game = false
+
+var ai_player = []
 
 
 onready var viewport = get_viewport()
