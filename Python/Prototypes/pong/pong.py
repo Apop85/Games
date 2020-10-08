@@ -7,11 +7,11 @@
 # Project: pong
 #-----
 # Created Date: Tuesday 28.07.2020, 20:41
-# Author: Raffael Baldinger
+# Author: Apop85
 #-----
 # Last Modified: Tuesday 28.07.2020, 20:41
 #-----
-# Copyright (c) 2020 Raffael Baldinger
+# Copyright (c) 2020 Apop85
 # This software is published under the MIT license.
 # Check http://www.opensource.org/licenses/MIT for further informations
 #-----

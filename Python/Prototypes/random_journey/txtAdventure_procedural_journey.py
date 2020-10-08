@@ -7,11 +7,11 @@
 # Project: random_journey
 #-----
 # Created Date: Saturday 18.07.2020, 12:27
-# Author: Raffael Baldinger
+# Author: Apop85
 #-----
 # Last Modified: Monday 20.07.2020, 21:17
 #-----
-# Copyright (c) 2020 Raffael Baldinger
+# Copyright (c) 2020 Apop85
 # This software is published under the MIT license.
 # Check http://www.opensource.org/licenses/MIT for further informations
 #-----
